@@ -1,0 +1,12 @@
+Central do Business Plan — estrutura para a Vercel
+
+index.html                 hub com login (usuários e senha no bloco "acesso (configuração)" do script)
+planejamento/v2.html       Business Plan v2, íntegro (sem alteração)
+planejamento/v3.html       Business Plan v3 (com verificação de login: sem sessão, volta ao hub)
+concorrentes/              em breve (redireciona ao hub)
+vale-ouro/                 em breve (redireciona ao hub)
+vercel.json                cleanUrls + noindex
+
+Para publicar: suba a pasta inteira como projeto na Vercel (ou substitua o conteúdo do projeto atual).
+Login: Rafael Moraes · Gabriel Martins · Fellipe Viana — senha BP@appMorador#2026#
+A v2 não tem verificação de login para permanecer idêntica; se quiser, a mesma linha usada na v3 pode ser adicionada.
