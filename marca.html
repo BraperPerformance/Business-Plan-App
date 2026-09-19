@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marca · Central do Business Plan</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&family=Outfit:wght@300;400;600;800;900&family=Sora:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap">
+<style>
+:root{
+  --brand-dark:#5C0A13; --brand-deep:#9C0F1F; --brand:#DC1E2D; --brand-mid:#EF4655;
+  --brand-light:#F6AAB1; --brand-pale:#FDECEE;
+  --accent:#16A34A; --ink:#1F2430; --ink-soft:#3A4152; --ink-mute:#6B7280;
+  --bg:#FAF8F4; --card:#FFFFFF; --line:#EDE7E4; --line-2:#EDE7E4;
+  --navy:#1F2430; --navy-deep:#171B26; --navy-line:#333A4C; --navy-text:#C9CEDC; --navy-mute:#8B93A7;
+  --display:'Archivo',Arial,sans-serif; --body:'DM Sans','Segoe UI',sans-serif; --mono:'DM Sans','Segoe UI',sans-serif;
+  /* ---- paleta candidata da marca nova (nunca vermelho) ---- */
+  --az:#1B4DFF; --az-deep:#0B1F6B; --az-acc:#00E0C6; --az-pale:#E8EEFF;
+  --rx:#7C3AED; --rx-deep:#3B1580; --rx-acc:#22D3EE; --rx-pale:#F1EAFE;
+  --spec:#0E1220;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0;z-index:60}
+nav{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1080px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.nav-back{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;font-size:12.5px;letter-spacing:.02em;color:var(--brand-deep);background:var(--brand-pale);border:1px solid var(--brand-light);border-radius:999px;padding:6px 14px;text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-back:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.nav-brand{font-family:var(--display);font-weight:800;font-size:14.5px;color:var(--ink);white-space:nowrap}
+.nav-brand b{color:var(--brand)}
+.nav-links{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ink-mute);text-decoration:none;padding:6px 10px;border-radius:999px;transition:color .15s,background .15s}
+.nav-links a:hover{color:var(--brand);background:var(--brand-pale)}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:24px}
+section{padding-block:66px}
+.eyebrow{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--brand);border-radius:2px}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(25px,3.4vw,34px);line-height:1.15;letter-spacing:-.01em;margin-top:14px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:800}
+.lede{max-width:64ch;color:var(--ink-soft);margin-top:14px}
+.sec-head{margin-bottom:34px}
+.reveal{transition:opacity .55s ease,transform .55s ease}
+.reveal.pre{opacity:0;transform:translateY(18px)}
+header.hero{background:linear-gradient(160deg,#fff 0%,var(--bg) 55%,var(--brand-pale) 130%);border-bottom:1px solid var(--line)}
+.hero-in{max-width:1080px;margin:0 auto;padding:58px 24px 50px}
+.conf{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:12.5px;color:var(--ink-soft);border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 14px}
+.conf i{width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block;animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,30,45,.35)}50%{box-shadow:0 0 0 6px rgba(220,30,45,0)}}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(34px,5.4vw,58px);line-height:1.05;letter-spacing:-.02em;margin-top:20px;text-wrap:balance}
+h1 .red{color:var(--brand)}
+.thesis{margin-top:22px;max-width:72ch;font-size:clamp(16px,1.9vw,19px);line-height:1.55;color:var(--ink-soft)}
+.thesis strong{color:var(--ink)}
+.hero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:34px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.stat .n{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.01em}
+.stat.hot .n{color:var(--brand)}
+.stat .l{font-size:12.5px;color:var(--ink-mute);margin-top:4px;line-height:1.4}
+.src{font-size:12px;color:var(--ink-mute);margin-top:14px}
+.hero-note{font-size:13px;color:var(--ink-mute);margin-top:10px}
+
+/* ---- etiquetas de rigor ---- */
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-radius:5px;padding:2px 7px;margin-right:7px;vertical-align:1px;white-space:nowrap}
+.tag.fato{background:#ECFDF3;color:#14532D;border:1px solid #BFE8CC}
+.tag.hip{background:#FEF6E7;color:#8A5B12;border:1px solid #F5D9A8}
+.tag.pend{background:#F1F5F9;color:#475569;border:1px solid #E2E8F0}
+.rule{background:var(--navy);color:var(--navy-text);border-radius:14px;padding:18px 22px;font-size:13.5px;margin-top:22px;display:flex;gap:14px;align-items:flex-start}
+.rule b{color:#fff;font-family:var(--display)}
+
+/* ---- critérios ---- */
+.crit{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:8px}
+.crit .c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.crit .c h4{font-family:var(--display);font-weight:800;font-size:14.5px}
+.crit .c p{font-size:12.5px;color:var(--ink-mute);margin-top:5px;line-height:1.45}
+.crit .wrow{display:flex;align-items:center;gap:8px;margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.crit input{width:66px;font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);text-align:right}
+.crit input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-pale)}
+.crit .wrow span{font-size:12px;color:var(--ink-mute)}
+.wsum{margin-top:14px;font-size:13px;color:var(--ink-soft)}
+.wsum b{font-family:var(--display)}
+.wsum.bad b{color:var(--brand-deep)}
+
+/* ---- cards de nome ---- */
+.names{display:grid;gap:18px}
+.nm{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.nm-head{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:24px 26px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,var(--bg))}
+.nm-head .w{font-family:var(--display);font-weight:900;font-size:clamp(30px,4.4vw,42px);letter-spacing:-.025em;line-height:1}
+.nm-head .rd{font-size:13.5px;color:var(--ink-soft);margin-top:7px;max-width:56ch}
+.nm-head .rd b{color:var(--ink)}
+.nm-syl{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-mute);text-align:right;white-space:nowrap}
+.nm-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:860px){.nm-body{grid-template-columns:1fr}}
+.nm-col{padding:22px 26px}
+.nm-col+.nm-col{border-left:1px solid var(--line)}
+@media(max-width:860px){.nm-col+.nm-col{border-left:0;border-top:1px solid var(--line)}}
+.nm-col h4{font-family:var(--display);font-weight:800;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand-deep);margin-bottom:12px}
+.nm-col.contra h4{color:var(--ink)}
+.nm-col ul{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.nm-col li{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.nm-col li b{color:var(--ink)}
+.nm-orig{padding:20px 26px;background:var(--bg);border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink-soft)}
+.nm-orig b{font-family:var(--display);color:var(--ink);display:block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.nm-orig a{color:var(--brand-deep)}
+.nm-check{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;padding:18px 26px;border-top:1px solid var(--line);background:var(--bg)}
+.nm-check div{font-size:12.5px;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.nm-check b{display:block;font-family:var(--display);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:3px}
+
+/* ---- especímenes (tipografia, cor, símbolo) ---- */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:22px;position:sticky;top:62px;z-index:40}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--bg)}
+.seg button{font-family:var(--display);font-weight:800;font-size:12.5px;border:0;background:transparent;color:var(--ink-mute);padding:6px 13px;border-radius:999px;cursor:pointer;transition:all .15s}
+.seg button.on{background:var(--ink);color:#fff}
+.seg.az button.on{background:var(--az)} .seg.rx button.on{background:var(--rx)}
+.ctl{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-mute)}
+.ctl input[type=range]{width:120px;accent-color:var(--ink)}
+.spec{background:var(--spec);border-radius:18px;padding:30px 32px;margin-bottom:16px;transition:background .25s}
+.spec.light{background:#fff;border:1px solid var(--line)}
+.spec-h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+.spec-h .fname{font-family:var(--display);font-weight:800;font-size:15px;color:#fff}
+.spec.light .spec-h .fname{color:var(--ink)}
+.spec-h .fnote{font-size:12.5px;color:var(--navy-mute);max-width:62ch}
+.spec.light .spec-h .fnote{color:var(--ink-mute)}
+.wordmarks{display:grid;gap:14px}
+.wm-row{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;border-top:1px solid rgba(255,255,255,.09);padding-top:14px}
+.spec.light .wm-row{border-top-color:var(--line)}
+.wm-row:first-child{border-top:0;padding-top:0}
+.wm{color:#fff;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spec.light .wm{color:var(--ink)}
+.wm.c-az{color:var(--az)} .wm.c-rx{color:var(--rx)}
+.spec .wm.c-az{color:#6B90FF} .spec .wm.c-rx{color:#A78BFA}
+.spec.light .wm.c-az{color:var(--az)} .spec.light .wm.c-rx{color:var(--rx)}
+.icon{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:27px;color:#fff;flex:none}
+.ic-az{background:linear-gradient(145deg,var(--az),var(--az-deep))}
+.ic-rx{background:linear-gradient(145deg,var(--rx),var(--rx-deep))}
+.ic-nt{background:linear-gradient(145deg,#3A4152,#171B26)}
+
+/* ---- cor ---- */
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){.routes{grid-template-columns:1fr}}
+.route{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.route-top{padding:26px;color:#fff}
+.route.az .route-top{background:linear-gradient(145deg,var(--az),var(--az-deep))}
+.route.rx .route-top{background:linear-gradient(145deg,var(--rx),var(--rx-deep))}
+.route-top h3{font-size:22px;color:#fff}
+.route-top p{font-size:13.5px;margin-top:8px;opacity:.92}
+.sw{display:flex;gap:0;height:52px}
+.sw div{flex:1;display:flex;align-items:flex-end;padding:7px 9px;font-family:var(--mono);font-size:10.5px;color:#fff;letter-spacing:.03em}
+.sw div.lt{color:var(--ink)}
+.route-body{padding:22px 26px}
+.route-body .mini{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.mini-top{padding:13px 16px;color:#fff;display:flex;align-items:center;gap:10px}
+.route.az .mini-top{background:var(--az)} .route.rx .mini-top{background:var(--rx)}
+.mini-top .mk{font-family:var(--display);font-weight:900;font-size:15px;letter-spacing:-.01em}
+.mini-top .mc{margin-left:auto;font-size:11px;opacity:.85}
+.mini-body{padding:14px 16px;background:#fff}
+.mini-body .ln{height:9px;border-radius:5px;background:var(--line);margin-bottom:8px}
+.mini-body .ln.s{width:62%}
+.mini-cta{display:inline-block;margin-top:6px;font-family:var(--display);font-weight:800;font-size:12px;color:#fff;border-radius:999px;padding:7px 15px}
+.route.az .mini-cta{background:var(--az)} .route.rx .mini-cta{background:var(--rx)}
+.route-body ul{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+.route-body li{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.comp{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 26px}
+.comp h3{font-size:17px}
+.comp .bars{display:grid;gap:10px;margin-top:16px}
+.comp .b{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:center}
+.comp .b .who{font-family:var(--display);font-weight:800;font-size:13.5px}
+.comp .b .sw2{height:34px;border-radius:8px;display:flex;align-items:center;padding-inline:12px;color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em}
+@media(max-width:640px){.comp .b{grid-template-columns:1fr}}
+
+/* ---- símbolo ---- */
+.sym-hero{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px;display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-bottom:22px}
+@media(max-width:760px){.sym-hero{grid-template-columns:1fr}}
+.sym-set{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.sym-box{width:92px;height:92px;border-radius:22px;display:grid;place-items:center;flex:none}
+.sym-box.sm{width:44px;height:44px;border-radius:11px}
+.sym-box.xs{width:24px;height:24px;border-radius:6px}
+.sym-box.az{background:linear-gradient(145deg,var(--az),var(--az-deep))}
+.sym-box.rx{background:linear-gradient(145deg,var(--rx),var(--rx-deep))}
+.sym-box.nt{background:var(--ink)}
+.sym-box svg{width:56%;height:56%}
+.sym-hero h3{font-size:20px}
+.sym-hero p{font-size:14px;color:var(--ink-soft);margin-top:10px;max-width:60ch}
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.sym{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.sym .row{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.sym h4{font-family:var(--display);font-weight:800;font-size:16px}
+.sym .kd{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute)}
+.sym p{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.sym .risk{margin-top:10px;border-top:1px dashed var(--line);padding-top:9px;font-size:12.5px;color:var(--ink-mute)}
+
+/* ---- votação ---- */
+#voto{background:#fff;border-block:1px solid var(--line)}
+.vt-who{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}
+.vt-who select{font:inherit;font-size:14.5px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;min-width:190px}
+.vt-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+table.vt{width:100%;border-collapse:collapse;font-size:13.5px;min-width:680px;background:#fff}
+table.vt th{font-family:var(--display);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;text-align:center;background:var(--bg);color:var(--ink-mute);padding:11px 8px;font-weight:800}
+table.vt th:first-child{text-align:left;padding-left:16px}
+table.vt td{padding:9px 8px;border-top:1px solid var(--line);text-align:center}
+table.vt tbody tr:nth-child(even) td{background:#FAF8F6}
+table.vt td:first-child{text-align:left;padding-left:16px;font-family:var(--display);font-weight:800;font-size:15px}
+table.vt input{width:58px;font:inherit;font-size:14px;padding:6px;border:1px solid var(--line);border-radius:8px;text-align:center;background:#fff}
+table.vt input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px #EDEFF3}
+.rank{margin-top:26px;display:grid;gap:11px}
+.rk{display:grid;grid-template-columns:120px 1fr 74px;gap:12px;align-items:center}
+@media(max-width:640px){.rk{grid-template-columns:1fr}}
+.rk .nmz{font-family:var(--display);font-weight:800;font-size:16px}
+.rk .track{height:32px;background:var(--bg);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.rk .fill{height:100%;background:linear-gradient(90deg,var(--az-deep),var(--az));width:0;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.rk.p1 .fill{background:linear-gradient(90deg,var(--rx-deep),var(--rx))}
+.rk .val{font-family:var(--display);font-weight:900;font-size:17px;text-align:right;font-variant-numeric:tabular-nums}
+.vt-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;align-items:center}
+.btn{font-family:var(--display);font-weight:800;font-size:14px;border:0;border-radius:999px;padding:12px 22px;cursor:pointer;background:var(--ink);color:#fff;transition:background .15s}
+.btn:hover{background:#000}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--bg)}
+.vt-note{font-size:12.5px;color:var(--ink-mute);margin-top:14px;max-width:80ch}
+.vt-out{margin-top:16px;width:100%;min-height:140px;font-family:var(--mono);font-size:12.5px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink-soft);display:none;line-height:1.6;white-space:pre-wrap}
+.vt-out.on{display:block}
+
+/* ---- checklist ---- */
+.chk{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.chk div{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand-light);border-radius:12px;padding:18px 20px}
+.chk b{display:block;font-family:var(--display);font-size:14.5px;margin-bottom:6px}
+.chk p{font-size:13px;color:var(--ink-soft);line-height:1.5}
+#fontes{background:var(--bg);padding-block:44px;border-top:1px solid var(--line)}
+#fontes h2{font-size:21px}
+#fontes ol{margin:16px 0 0;padding-left:0;counter-reset:src;display:grid;gap:8px;max-width:92ch}
+#fontes li{list-style:none;font-size:13px;color:var(--ink-soft);padding-left:34px;position:relative;line-height:1.5}
+#fontes li::before{counter-increment:src;content:"[" counter(src) "]";position:absolute;left:0;top:0;font-family:var(--mono);font-size:12px;color:var(--brand-deep)}
+#fontes a{color:var(--brand-deep);text-decoration:none;border-bottom:1px solid var(--brand-light)}
+footer{background:var(--navy-deep);color:var(--navy-mute);padding:32px 0;border-top:1px solid var(--navy-line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;font-size:13px}
+footer b{color:#fff;font-family:var(--display)}
+/* ---- gate ---- */
+#gate{position:fixed;inset:0;z-index:100;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:20px}
+#gate .box{background:#fff;border-radius:18px;padding:32px;width:100%;max-width:420px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6)}
+#gate h1{font-size:24px;margin:8px 0 4px}
+#gate p.sb{color:var(--ink-mute);font-size:14px;margin:0 0 16px}
+#gate label{display:block;font-size:12.5px;color:var(--ink-soft);margin:12px 0 5px}
+#gate input,#gate select{width:100%;font:inherit;font-size:15px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+#gate input:focus,#gate select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-pale)}
+.pwrap{position:relative}.pwrap input{padding-right:46px}
+.pwrap button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;cursor:pointer;padding:6px 8px;border-radius:8px;color:var(--ink-mute);display:flex;align-items:center}
+.pwrap svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#gate .go{margin-top:18px;width:100%;font-family:var(--display);font-weight:800;font-size:15px;background:var(--brand);color:#fff;border:0;border-radius:999px;padding:13px;cursor:pointer}
+#gate .err{color:var(--brand-deep);font-size:13px;margin-top:10px;display:none}
+body.locked #app{display:none}
+.who-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--ink-mute);margin-top:26px}
+.who-bar button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;cursor:pointer;color:var(--ink-soft)}
+@media(max-width:760px){
+  section{padding-block:48px}
+  .hero-in{padding:38px 20px}
+  .wrap{padding-inline:20px}
+  .nav-in{padding:10px 16px;gap:8px}
+  .nav-links{display:none}
+  h1{font-size:32px}
+  .controls{position:static}
+  .spec{padding:22px 18px}
+  .nm-head{grid-template-columns:1fr}
+  .nm-syl{text-align:left}
+}
+</style>
+</head>
+<body class="locked">
+<div id="progress" aria-hidden="true"></div>
+<div id="gate" role="dialog" aria-labelledby="gate-h">
+  <form class="box" id="gate-form" autocomplete="off">
+    <span class="conf"><i></i>Confidencial · acesso restrito aos sócios</span>
+    <h1 id="gate-h">Central do Business Plan</h1>
+    <p class="sb">Central do Morador · Marca</p>
+    <label for="g-user">Quem é você?</label>
+    <select id="g-user" required><option value="">Selecione</option><option>Rafael Moraes</option><option>Gabriel Martins</option><option>Fellipe Viana</option></select>
+    <label for="g-pass">Senha</label>
+    <div class="pwrap">
+      <input id="g-pass" type="password" required placeholder="••••••••">
+      <button type="button" id="g-eye" aria-label="Mostrar senha"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    </div>
+    <button type="submit" class="go">Entrar</button>
+    <div class="err" id="g-err">Senha incorreta. Tente novamente.</div>
+  </form>
+</div>
+<div id="app">
+<nav aria-label="Seções">
+  <div class="nav-in">
+    <a class="nav-back" href="index.html">← Central do BP</a>
+    <span class="nav-brand">Central do Morador <b>· Marca</b></span>
+    <div class="nav-links">
+      <a href="#criterios">Critérios</a><a href="#nomes">Os cinco nomes</a><a href="#tipografia">Tipografia</a><a href="#cor">Cor</a><a href="#simbolo">Símbolo</a><a href="#voto">Votação</a><a href="#falta">O que falta</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-in">
+    <span class="conf"><i></i>Confidencial · Marca · 19 de setembro de 2026</span>
+    <h1>Cinco nomes na mesa. Um deles vira a <span class="red">marca</span>.</h1>
+    <p class="hero-note">Material da categoria Marca da Central do Business Plan. Complementa o BP v3 e o dossiê de Concorrentes v1.</p>
+    <p class="thesis">Este material existe para que a decisão de nome seja tomada com o mesmo rigor das outras: <strong>cada afirmação aqui tem fonte ou está marcada como hipótese</strong>. Traz a origem de cada nome, o que joga a favor e contra, a simulação em cinco tipografias, duas rotas de cor, direções de símbolo e uma votação para os três sócios.</p>
+    <div class="hero-stats">
+      <div class="stat hot"><div class="n">5</div><div class="l">nomes finalistas, com dossiê próprio</div></div>
+      <div class="stat hot"><div class="n">5</div><div class="l">domínios .com.br livres na consulta ao Registro.br em 19/09/2026</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">nomes verificados no INPI — nenhuma afirmação de marca neste material</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">rotas de cor em disputa: azul elétrico e violeta elétrico</div></div>
+    </div>
+    <p class="src">O vermelho desta página é o sistema visual do Bello 1009, usado em todos os materiais da Central. A marca nova não usa vermelho: as simulações aparecem sempre em azul, violeta ou neutro.</p>
+  </div>
+</header>
+
+<!-- ============ 1 · CRITÉRIOS ============ -->
+<section id="criterios">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 1 · Como decidir</span>
+      <h2>Seis critérios, com peso, para a escolha não virar questão de gosto</h2>
+      <p class="lede">Gosto pessoal decide empate, não decide marca. Os pesos abaixo são a proposta inicial e podem ser alterados aqui mesmo — a votação da Seção 6 recalcula na hora.</p>
+    </div>
+    <div class="crit reveal">
+      <div class="c"><h4>Encaixe com o negócio</h4><p>O nome ajuda a abrir a conversa com o síndico? Combina com um produto que também vai virar financeiro, rede e certificação?</p><div class="wrow"><input type="number" id="w0" value="20" min="0" max="100" step="5"><span>% de peso</span></div></div>
+      <div class="c"><h4>Memorabilidade</h4><p>Depois de ouvir uma vez, numa feira ou numa assembleia, a pessoa lembra? Nome esquecível custa mídia todo mês.</p><div class="wrow"><input type="number" id="w1" value="20" min="0" max="100" step="5"><span>% de peso</span></div></div>
+      <div class="c"><h4>Pronúncia e escrita ao ouvir</h4><p>O teste do telefone: eu falo o nome e a outra pessoa digita certo, sem soletrar. Falha aqui vira domínio digitado errado e cliente perdido.</p><div class="wrow"><input type="number" id="w2" value="20" min="0" max="100" step="5"><span>% de peso</span></div></div>
+      <div class="c"><h4>Potencial visual</h4><p>Vira wordmark forte, ícone de app legível em 16 pixels e assinatura em tela de abertura?</p><div class="wrow"><input type="number" id="w3" value="15" min="0" max="100" step="5"><span>% de peso</span></div></div>
+      <div class="c"><h4>Risco jurídico e disponibilidade</h4><p>Domínio, colisão com marcas existentes e chance de o INPI recusar. Quanto mais genérico ou mais usado por terceiros, maior o risco.</p><div class="wrow"><input type="number" id="w4" value="15" min="0" max="100" step="5"><span>% de peso</span></div></div>
+      <div class="c"><h4>Longevidade</h4><p>O nome aguenta dez anos e a expansão para fora do condomínio, ou amarra a empresa ao que ela é hoje?</p><div class="wrow"><input type="number" id="w5" value="10" min="0" max="100" step="5"><span>% de peso</span></div></div>
+    </div>
+    <p class="wsum" id="wsum">Soma dos pesos: <b>100%</b></p>
+    <div class="rule reveal">
+      <div>
+        <b>A regra de rigor deste material.</b>
+        Tudo que aparece marcado como <span class="tag fato">fato</span> tem fonte pública listada no rodapé. Tudo marcado como <span class="tag hip">hipótese</span> é leitura minha, não verificada — serve para provocar discussão, não para fundamentar decisão. E <span class="tag pend">pendente</span> é o que ainda ninguém checou. Nenhuma afirmação sobre registro de marca aparece aqui: a busca no INPI não foi feita.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 · OS CINCO NOMES ============ -->
+<section id="nomes" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 2 · Os cinco nomes</span>
+      <h2>Um dossiê por nome: de onde vem, o que ajuda e o que atrapalha</h2>
+      <p class="lede">A ordem é a mesma em que os nomes chegaram à mesa. Cada card traz a sua leitura, a origem verificada, os argumentos dos dois lados e o estado da checagem.</p>
+    </div>
+
+    <div class="names">
+
+      <!-- BAWAB -->
+      <article class="nm reveal">
+        <div class="nm-head">
+          <div>
+            <div class="w">Bawab</div>
+            <div class="rd">Sua leitura: <b>irreverente e memorável</b> — e a melhor história conceitual dos cinco.</div>
+          </div>
+          <div class="nm-syl">2 sílabas · ba·wab</div>
+        </div>
+        <div class="nm-orig">
+          <b>Origem</b>
+          Palavra árabe (بواب) que designa o porteiro ou zelador de prédio, função clássica no Cairo: vigia a entrada, faz recados para os moradores e funciona como uma espécie de superintendente do edifício. A raiz é <i>bab</i>, porta. <span class="tag fato">fato</span> Fontes [1] e [2].
+        </div>
+        <div class="nm-body">
+          <div class="nm-col">
+            <h4>Joga a favor</h4>
+            <ul>
+              <li><b>A história é verdadeira e é a nossa.</b> O produto faz, em software, exatamente o que o bawab faz no prédio: sabe quem entra, sabe o que está acontecendo e resolve o dia a dia. Nome com lastro é mais fácil de defender numa apresentação.</li>
+              <li><b>Som curto e incomum no Brasil.</b> Duas sílabas, sem concorrência sonora na categoria — nenhum player brasileiro soa parecido.</li>
+              <li><b>Nenhuma proptech encontrada com o nome</b> nas buscas feitas em 19/09. <span class="tag hip">hipótese</span> Ausência de resultado não é prova de inexistência.</li>
+            </ul>
+          </div>
+          <div class="nm-col contra">
+            <h4>Joga contra</h4>
+            <ul>
+              <li><span class="tag fato">fato</span> <b>O significado literal é "porteiro"</b> — e portaria é justamente o que decidimos não fazer. Nosso comprador é o síndico, e o nome nos coloca no papel do funcionário, não no da plataforma de gestão.</li>
+              <li><span class="tag fato">fato</span> <b>A função carrega status subalterno na cultura de origem:</b> o salário é definido e pago diretamente pelos moradores [1]. Se a marca crescer, esse é o subtexto que vem junto com o significado.</li>
+              <li><span class="tag fato">fato</span> <b>Bawab é sobrenome árabe corrente</b> e existe um app "Rafic Bawab" na App Store [3] — nome de pessoa, colisão baixa, mas o termo não está livre no mundo.</li>
+              <li><span class="tag hip">hipótese</span> <b>Pronúncia instável em português</b> — "ba-UÁB" ou "BÁ-uabi"? Ditado por telefone pode virar "bauab". Um teste com dez pessoas resolve.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="nm-check">
+          <div><b>Domínio</b>bawab.com.br livre — Registro.br, 19/09/2026</div>
+          <div><b>Uso existente</b>Sobrenome árabe; app pessoal na App Store</div>
+          <div><b>INPI</b><span class="tag pend">pendente</span> busca de anterioridade não feita</div>
+        </div>
+      </article>
+
+      <!-- SELAR -->
+      <article class="nm reveal">
+        <div class="nm-head">
+          <div>
+            <div class="w">Selar</div>
+            <div class="rd">Sua leitura: <b>conceitual e brasileiro</b> — a palavra mais familiar dos cinco.</div>
+          </div>
+          <div class="nm-syl">2 sílabas · se·lar</div>
+        </div>
+        <div class="nm-orig">
+          <b>Origem</b>
+          Não é nome inventado: é verbo do português. <i>Selar</i> significa pôr selo, lacrar, validar, confirmar e dar por encerrado — e também, na cozinha, sear a carne. Há ainda um segundo verbo <i>selar</i>, de pôr sela em animal. <span class="tag fato">fato</span> Fonte [4].
+        </div>
+        <div class="nm-body">
+          <div class="nm-col">
+            <h4>Joga a favor</h4>
+            <ul>
+              <li><b>O significado é exatamente o que vendemos.</b> Selar é validar, dar fé, encerrar uma pendência — que é o que o síndico faz com multa, ata, comunicado e prestação de contas.</li>
+              <li><b>Conversa com o que já existe no produto:</b> o selo Síndico do Futuro, do plano Ultra, ganha um nome de marca que o explica sozinho.</li>
+              <li><b>Zero atrito de pronúncia e escrita.</b> É o único dos cinco que passa no teste do telefone sem nenhuma dúvida.</li>
+            </ul>
+          </div>
+          <div class="nm-col contra">
+            <h4>Joga contra</h4>
+            <ul>
+              <li><span class="tag fato">fato</span> <b>É palavra comum do idioma</b> — exatamente o critério que você usou para descartar "Padok". Contraria o pedido de nome inventado.</li>
+              <li><span class="tag fato">fato</span> <b>Já existe uma Selar consolidada:</b> plataforma nigeriana de creator economy, ativa em selar.com e selar.co, com cobertura de imprensa e volume relevante de pagamentos a criadores [5][6]. O .com está ocupado por empresa viva.</li>
+              <li><span class="tag fato">fato</span> <b>Busca orgânica comprometida:</b> quem procura "selar" encontra dicionário, receita de carne selada e a empresa nigeriana. Toda descoberta teria de ser paga.</li>
+              <li><span class="tag hip">hipótese</span> <b>Marca formada por palavra comum tende a ter proteção mais estreita</b> e a encontrar mais anterioridades. Quem confirma isso é o agente de marcas, não este material.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="nm-check">
+          <div><b>Domínio</b>selar.com.br livre — Registro.br, 19/09/2026. O .com está ocupado</div>
+          <div><b>Uso existente</b>Verbo do português; empresa ativa na Nigéria</div>
+          <div><b>INPI</b><span class="tag pend">pendente</span> busca de anterioridade não feita</div>
+        </div>
+      </article>
+
+      <!-- RINU -->
+      <article class="nm reveal">
+        <div class="nm-head">
+          <div>
+            <div class="w">Rinu</div>
+            <div class="rd">Sua leitura: <b>leve, simples, com cara de app</b> — e o melhor truque linguístico.</div>
+          </div>
+          <div class="nm-syl">2 sílabas · ri·nu</div>
+        </div>
+        <div class="nm-orig">
+          <b>Origem</b>
+          Também não é palavra inventada. Rinu é nome próprio japonês — há um cantor e dublador com esse nome e verbete próprio — e nome masculino comum em Kerala, na Índia, onde dá nome a empresas pequenas. <span class="tag fato">fato</span> Fontes [7] e [8].
+        </div>
+        <div class="nm-body">
+          <div class="nm-col">
+            <h4>Joga a favor</h4>
+            <ul>
+              <li><b>É o que mais se parece com o molde que você pediu:</b> duas sílabas abertas, terminação em vogal, pronúncia brasileira sem esforço — a mesma lógica de Braper e Bileula.</li>
+              <li><b>Cara de app.</b> Quatro letras cabem inteiras num ícone, sem abreviar, e ficam legíveis em tela pequena.</li>
+              <li><b>Nenhum uso encontrado no mercado condominial brasileiro</b>, o que deixa o território semântico vazio para nós.</li>
+            </ul>
+          </div>
+          <div class="nm-col contra">
+            <h4>Joga contra</h4>
+            <ul>
+              <li><span class="tag fato">fato</span> <b>Existe como nome de pessoa em dois países</b> e como marca de empresas pequenas. Se houver ambição internacional, a busca de anterioridade encontra terceiros antes de nós.</li>
+              <li><span class="tag fato">fato</span> <b>Não carrega significado nenhum na nossa categoria.</b> Todo o sentido teria de ser construído com mídia — e mídia é o custo que estamos tentando evitar no cenário enxuto.</li>
+              <li><span class="tag hip">hipótese</span> <b>Proximidade sonora com o prefixo "rino-"</b> pode gerar piada fácil. Não sei afirmar que aconteceria.</li>
+              <li><span class="tag hip">hipótese</span> <b>Leveza demais para o comprador.</b> O síndico contrata uma ferramenta de gestão; um nome muito fofo pode trabalhar contra a percepção de robustez.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="nm-check">
+          <div><b>Domínio</b>rinu.com.br livre — Registro.br, 19/09/2026</div>
+          <div><b>Uso existente</b>Nome próprio no Japão e na Índia; empresas pequenas</div>
+          <div><b>INPI</b><span class="tag pend">pendente</span> busca de anterioridade não feita</div>
+        </div>
+      </article>
+
+      <!-- ERAZAN -->
+      <article class="nm reveal">
+        <div class="nm-head">
+          <div>
+            <div class="w">Erazan</div>
+            <div class="rd">Sua leitura: <b>épico e simbólico</b> — a melhor referência escondida.</div>
+          </div>
+          <div class="nm-syl">3 sílabas · e·ra·zan</div>
+        </div>
+        <div class="nm-orig">
+          <b>Origem</b>
+          Construção sua: <b>Erazan lido de trás para frente é Nazaré</b> — referência a Jesus de Nazaré. <span class="tag fato">fato</span> A inversão é verificável por qualquer pessoa. O termo também existe no mundo como sobrenome, com uma empresa homônima registrada no Reino Unido no setor financeiro e um músico com o nome em plataformas de música [9][10][11].
+        </div>
+        <div class="nm-body">
+          <div class="nm-col">
+            <h4>Joga a favor</h4>
+            <ul>
+              <li><b>Som próprio e grave.</b> Não se parece com nenhum dos cinco concorrentes analisados — nem com a Winker, nem com a uCondo, nem com a TownSq.</li>
+              <li><b>A inversão é um mecanismo real de naming</b>, o mesmo que você já havia testado em Lartnec. Dá ao fundador uma história pessoal para contar quando quiser contar.</li>
+              <li><b>Grafia livre no Brasil:</b> nenhuma empresa brasileira encontrada com o nome.</li>
+            </ul>
+          </div>
+          <div class="nm-col contra">
+            <h4>Joga contra</h4>
+            <ul>
+              <li><span class="tag fato">fato</span> <b>Referência escondida não fica escondida.</b> Basta uma pessoa ler ao contrário e a marca passa a carregar publicamente uma referência religiosa — num produto vendido a condomínios inteiros, de todas as crenças. Isso é decisão de posicionamento, não defeito técnico: o ponto é escolher conscientemente, não ser surpreendido.</li>
+              <li><span class="tag hip">hipótese</span> <b>A primeira associação de "Nazaré" no Brasil hoje tende a ser a personagem de novela virada meme</b>, não a referência bíblica. O efeito que chega pode não ser o pretendido.</li>
+              <li><span class="tag fato">fato</span> <b>Três sílabas e terminação em consoante</b> — mais pesado que o molde de pronúncia brasileira que você vinha perseguindo.</li>
+              <li><span class="tag fato">fato</span> <b>Homônimo ativo no exterior:</b> Erazan Asset Management Ltd, registrada no Reino Unido [9]. Setor diferente, mas relevante se houver ambição internacional.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="nm-check">
+          <div><b>Domínio</b>erazan.com.br livre — Registro.br, 19/09/2026</div>
+          <div><b>Uso existente</b>Sobrenome; empresa no Reino Unido; músico</div>
+          <div><b>INPI</b><span class="tag pend">pendente</span> busca de anterioridade não feita</div>
+        </div>
+      </article>
+
+      <!-- VADDOCK -->
+      <article class="nm reveal">
+        <div class="nm-head">
+          <div>
+            <div class="w">Vaddock</div>
+            <div class="rd">Sua leitura: <b>robusto, tech, quase industrial</b> — o mais proprietário dos cinco.</div>
+          </div>
+          <div class="nm-syl">2 sílabas · vad·dock</div>
+        </div>
+        <div class="nm-orig">
+          <b>Origem</b>
+          Construção sobre <i>paddock</i>, palavra inglesa que no automobilismo nomeia a área atrás dos boxes, onde as equipes trabalham [12]. Não encontrei nenhuma empresa ou marca com a grafia "Vaddock"; ela aparece apenas como variante de sobrenome. <span class="tag fato">fato</span>
+        </div>
+        <div class="nm-body">
+          <div class="nm-col">
+            <h4>Joga a favor</h4>
+            <ul>
+              <li><b>É o mais livre dos cinco.</b> Grafia sem uso comercial encontrado — o melhor ponto de partida para registro e para domínio em qualquer extensão.</li>
+              <li><b>Som firme e proprietário.</b> Passa solidez, que é o que o síndico quer ouvir de quem vai guardar os dados do condomínio dele.</li>
+              <li><b>Referência pessoal discreta ao automobilismo</b>, sem os problemas que "pole" trazia.</li>
+            </ul>
+          </div>
+          <div class="nm-col contra">
+            <h4>Joga contra</h4>
+            <ul>
+              <li><span class="tag fato">fato</span> <b>Você já descartou "Padok" por ser comum demais</b> — e Vaddock é a mesma raiz com outra roupa. Vale decidir se o disfarce resolve ou só adia a objeção.</li>
+              <li><span class="tag hip">hipótese</span> <b>"dd" e "-ck" não existem na ortografia do português.</b> Ditado por telefone tende a virar vadoque, vadok ou wadock — o pior desempenho previsto no teste do telefone.</li>
+              <li><span class="tag hip">hipótese</span> <b>Cara de sobrenome anglo</b>, no molde de Braddock e Haddock. Lê mais como consultoria ou escritório do que como app que o morador abre todo dia.</li>
+              <li><span class="tag hip">hipótese</span> <b>A referência do paddock é sua, não do mercado.</b> Para o síndico, o nome não significa nada — o peso recai todo sobre a identidade visual.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="nm-check">
+          <div><b>Domínio</b>vaddock.com.br livre — Registro.br, 19/09/2026</div>
+          <div><b>Uso existente</b>Nenhuma empresa encontrada; variante de sobrenome</div>
+          <div><b>INPI</b><span class="tag pend">pendente</span> busca de anterioridade não feita</div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · TIPOGRAFIA ============ -->
+<section id="tipografia">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 3 · Tipografia</span>
+      <h2>Os cinco nomes, nas cinco tipografias, com os mesmos controles</h2>
+      <p class="lede">Nome e letra não se julgam separados: a mesma palavra muda de caráter conforme a fonte. Mexa nos controles e compare — o que vale é como o conjunto se comporta no ícone, não só no título.</p>
+    </div>
+    <div class="controls reveal">
+      <div class="seg" id="seg-case"><button data-v="title" class="on">Aa</button><button data-v="upper">AA</button><button data-v="lower">aa</button></div>
+      <div class="seg" id="seg-canvas"><button data-v="dark" class="on">Fundo escuro</button><button data-v="light">Fundo claro</button></div>
+      <div class="seg" id="seg-color"><button data-v="nt" class="on">Neutro</button><button data-v="az">Azul</button><button data-v="rx">Violeta</button></div>
+      <label class="ctl">Peso <input type="range" id="c-weight" min="400" max="900" step="100" value="800"><b id="c-weight-v" style="font-family:var(--display);color:var(--ink)">800</b></label>
+      <label class="ctl">Espaçamento <input type="range" id="c-track" min="-50" max="30" step="5" value="-25"><b id="c-track-v" style="font-family:var(--display);color:var(--ink)">-0.025em</b></label>
+    </div>
+    <div id="typo-specs"></div>
+    <p class="src">As cinco tipografias são de uso livre (Google Fonts), o que evita licença paga na fase inicial. A escolha final da marca pode depois migrar para um desenho exclusivo sobre a base escolhida.</p>
+  </div>
+</section>
+
+<!-- ============ 4 · COR ============ -->
+<section id="cor" style="background:#fff;border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 4 · Cor</span>
+      <h2>Azul e violeta, lado a lado — e por que vermelho está fora</h2>
+      <p class="lede">O vermelho da Central do Business Plan é herança do Bello 1009 e continua sendo a cor dos materiais internos. A marca nova nasce em outro território. As duas rotas abaixo aplicam a mesma marca, o mesmo ícone e a mesma interface, trocando só a cor.</p>
+    </div>
+
+    <div class="comp reveal" style="margin-top:0;margin-bottom:22px">
+      <h3>O que a concorrência já ocupa</h3>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-top:8px;max-width:76ch">Cores extraídas dos logos dos concorrentes levantados no dossiê e conferidas nos sites em 19/09/2026. <span class="tag fato">fato</span> A leitura importante: <b>violeta já é da uCondo</b>, um dos dois concorrentes diretos da nossa tabela de funcionalidades — e <b>azul não é de ninguém</b> no grupo analisado.</p>
+      <div class="bars">
+        <div class="b"><span class="who">uCondo</span><div class="sw2" style="background:#7860C0">#7860C0 · violeta — também declarado no site como #A696DD</div></div>
+        <div class="b"><span class="who">TownSq</span><div class="sw2" style="background:#78A800">#78A800 · verde-limão</div></div>
+        <div class="b"><span class="who">Winker</span><div class="sw2" style="background:#A81848">#A81848 · magenta/carmim</div></div>
+        <div class="b"><span class="who">Superlógica</span><div class="sw2" style="background:#181818">#181818 · wordmark monocromático</div></div>
+        <div class="b"><span class="who">CondoPlan360</span><div class="sw2" style="background:#9CA3AF;color:#1F2430">sem presença online — fora desta leitura</div></div>
+      </div>
+    </div>
+
+    <div class="controls reveal" style="position:static;margin-bottom:18px">
+      <span style="font-size:12.5px;color:var(--ink-mute)">Ver a interface com o nome:</span>
+      <div class="seg" id="seg-mk"><button data-v="Bawab" class="on">Bawab</button><button data-v="Selar">Selar</button><button data-v="Rinu">Rinu</button><button data-v="Erazan">Erazan</button><button data-v="Vaddock">Vaddock</button></div>
+    </div>
+
+    <div class="routes">
+      <div class="route az reveal">
+        <div class="route-top">
+          <h3>Rota A · Azul elétrico</h3>
+          <p>Território livre entre os concorrentes. Vibrante sem ser infantil, e a cor que o mercado já associa a confiança quando o produto passa a mexer com dinheiro.</p>
+        </div>
+        <div class="sw">
+          <div style="background:#1B4DFF">#1B4DFF</div><div style="background:#0B1F6B">#0B1F6B</div><div style="background:#00E0C6" class="lt">#00E0C6</div><div style="background:#E8EEFF" class="lt">#E8EEFF</div>
+        </div>
+        <div class="route-body">
+          <div class="mini">
+            <div class="mini-top"><span class="mk" data-mk>Nome</span><span class="mc">Central do morador</span></div>
+            <div class="mini-body"><div class="ln"></div><div class="ln s"></div><span class="mini-cta">Abrir comunicado</span></div>
+          </div>
+          <ul>
+            <li><b>A favor:</b> nenhum dos cinco concorrentes analisados usa azul, então a diferenciação vem de graça.</li>
+            <li><b>A favor:</b> aguenta a virada de longo prazo para o financeiro sem precisar de rebranding.</li>
+            <li><b>Contra:</b> azul saturado é a cor mais usada por software em geral — a distinção tem de vir da forma e da tipografia, não só do tom.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="route rx reveal">
+        <div class="route-top">
+          <h3>Rota B · Violeta elétrico</h3>
+          <p>Mais autoral e mais "produto novo". Exige distância deliberada do lavanda da uCondo: o nosso é bem mais saturado e mais escuro.</p>
+        </div>
+        <div class="sw">
+          <div style="background:#7C3AED">#7C3AED</div><div style="background:#3B1580">#3B1580</div><div style="background:#22D3EE" class="lt">#22D3EE</div><div style="background:#F1EAFE" class="lt">#F1EAFE</div>
+        </div>
+        <div class="route-body">
+          <div class="mini">
+            <div class="mini-top"><span class="mk" data-mk>Nome</span><span class="mc">Central do morador</span></div>
+            <div class="mini-body"><div class="ln"></div><div class="ln s"></div><span class="mini-cta">Abrir comunicado</span></div>
+          </div>
+          <ul>
+            <li><b>A favor:</b> sinaliza tecnologia e produto jovem com mais personalidade que o azul.</li>
+            <li><b>A favor:</b> combina com os nomes de som mais épico, como Erazan.</li>
+            <li><b>Contra:</b> <span class="tag fato">fato</span> divide território com a uCondo, um concorrente direto — num comparativo lado a lado, a semelhança de cor trabalha contra nós.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="src">Terceira rota descartada na conversa, registrada aqui: índigo #4F46E5 com gradiente até #A855F7. Visual de tecnologia do momento, mas gradiente envelhece rápido e perde legibilidade em ícone pequeno. <span class="tag hip">hipótese</span></p>
+  </div>
+</section>
+
+<!-- ============ 5 · SÍMBOLO ============ -->
+<section id="simbolo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 5 · Símbolo</span>
+      <h2>Um símbolo que não depende do nome — e cinco que dependem</h2>
+      <p class="lede">A rota de cima permite fechar identidade agora e nome depois, porque o símbolo não ilustra a palavra. As cinco de baixo são mais expressivas, mas cada uma morre se o nome mudar.</p>
+    </div>
+
+    <div class="sym-hero reveal">
+      <div class="sym-set">
+        <div class="sym-box az"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="6" y="28" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="28" width="14" height="14" rx="3" fill="#00E0C6"/></svg></div>
+        <div class="sym-box rx"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="6" y="28" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="28" width="14" height="14" rx="3" fill="#22D3EE"/></svg></div>
+        <div class="sym-box sm nt"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="6" y="28" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="28" width="14" height="14" rx="3" fill="#fff"/></svg></div>
+        <div class="sym-box xs nt"><svg viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="6" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="6" y="28" width="14" height="14" rx="3" fill="#fff" opacity=".32"/><rect x="28" y="28" width="14" height="14" rx="3" fill="#fff"/></svg></div>
+      </div>
+      <div>
+        <span class="kd" style="font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-mute)">Símbolo único · independente do nome</span>
+        <h3 style="margin-top:6px">A janela acesa</h3>
+        <p>Quatro janelas de um prédio; uma está acesa. É o prédio onde a informação está ligada — a promessa do produto sem ilustrar nenhuma palavra específica. Funciona em qualquer um dos cinco nomes, sobrevive a uma troca de nome e continua legível a 24 pixels, que é o tamanho real do ícone na barra de tarefas do celular.</p>
+        <p style="margin-top:10px;font-size:13px;color:var(--ink-mute)">Alternativa da mesma família, também independente do nome: <b>o vão</b> — um arco isolado, a passagem entre a rua e o prédio. Mais abstrato, menos imediato.</p>
+      </div>
+    </div>
+
+    <div class="sym-grid">
+      <div class="sym reveal">
+        <div class="row"><div class="sym-box sm az"><svg viewBox="0 0 48 48" fill="none"><path d="M10 42V22a14 14 0 0 1 28 0v20" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M21 42V26a3 3 0 0 1 6 0v16" stroke="#00E0C6" stroke-width="4.5" stroke-linecap="round"/></svg></div><div><h4>Bawab</h4><span class="kd">O arco</span></div></div>
+        <p>A raiz da palavra é <i>bab</i>, porta. O arco com o vão aceso é literal sem ser óbvio e tem a vantagem de ser uma forma geométrica facilmente proprietária.</p>
+        <div class="risk">Risco: arco é forma muito usada por imobiliárias e construtoras.</div>
+      </div>
+      <div class="sym reveal">
+        <div class="row"><div class="sym-box sm az"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="15" stroke="#fff" stroke-width="4" stroke-dasharray="4 3.2"/><path d="M17 24.5l5 5 9-10" stroke="#00E0C6" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>Selar</h4><span class="kd">O lacre</span></div></div>
+        <p>Selo circular serrilhado com a marca de validação dentro. É o significado do nome virando forma, e liga direto ao selo Síndico do Futuro.</p>
+        <div class="risk">Risco: selo com serrilha lê como cartório e envelhece a marca.</div>
+      </div>
+      <div class="sym reveal">
+        <div class="row"><div class="sym-box sm az"><svg viewBox="0 0 48 48" fill="none"><path d="M15 38V21a7 7 0 0 1 12.5-4.3" stroke="#fff" stroke-width="5" stroke-linecap="round"/><circle cx="33" cy="17" r="5" fill="#00E0C6"/></svg></div><div><h4>Rinu</h4><span class="kd">O ponto</span></div></div>
+        <p>A haste do "r" com o ponto solto: leve, arredondado, cara de aplicativo. Cabe inteiro num ícone sem precisar abreviar o nome.</p>
+        <div class="risk">Risco: é a forma mais genérica das cinco — muitos apps têm algo parecido.</div>
+      </div>
+      <div class="sym reveal">
+        <div class="row"><div class="sym-box sm rx"><svg viewBox="0 0 48 48" fill="none"><path d="M24 5l16 7v14c0 9.5-6.6 15.6-16 18-9.4-2.4-16-8.5-16-18V12l16-7z" stroke="#fff" stroke-width="3.6" stroke-linejoin="round"/><path d="M18 19h12l-12 11h12" stroke="#22D3EE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>Erazan</h4><span class="kd">O escudo com Z</span></div></div>
+        <p>Escudo, que fala de proteção e guarda, com o Z do nome desenhado como um traço só. É o mais épico do conjunto, coerente com a leitura do nome.</p>
+        <div class="risk">Risco: escudo é o clichê do setor de segurança e puxa a marca para portaria, que não é o que vendemos.</div>
+      </div>
+      <div class="sym reveal">
+        <div class="row"><div class="sym-box sm rx"><svg viewBox="0 0 48 48" fill="none"><path d="M9 14l12 10-12 10" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 14l12 10-12 10" stroke="#22D3EE" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h4>Vaddock</h4><span class="kd">O chevron</span></div></div>
+        <p>Dois chevrons, a marcação do pit lane e também o "V" do nome. Direto, industrial e o mais fácil de reproduzir em qualquer tamanho.</p>
+        <div class="risk">Risco: chevron duplo carrega o vocabulário automotivo e pode confundir a categoria.</div>
+      </div>
+      <div class="sym reveal" style="border-style:dashed;background:var(--bg)">
+        <div class="row"><div class="sym-box sm nt" style="background:var(--ink-mute)"><svg viewBox="0 0 48 48" fill="none"><path d="M12 30V22a12 12 0 0 1 24 0v8" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M8 34h32" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></div><div><h4>A alternativa</h4><span class="kd">O vão</span></div></div>
+        <p>A segunda rota independente do nome: só a passagem, sem janelas. Mais abstrato que a janela acesa, mais fácil de aplicar em bordado, carimbo e uma cor só.</p>
+        <div class="risk">Decisão a tomar junto com o nome, não antes dele.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 · VOTAÇÃO ============ -->
+<section id="voto">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 6 · Votação</span>
+      <h2>Cada sócio pontua, a página calcula, o resultado vai para o grupo</h2>
+      <p class="lede">Dê de 0 a 10 para cada nome em cada critério. O ranking usa os pesos da Seção 1 e atualiza sozinho. Ao terminar, o botão gera o texto do seu voto pronto para colar no grupo — é assim que os três votos viram um resultado só.</p>
+    </div>
+
+    <div class="vt-who reveal">
+      <label for="vt-nome" style="font-size:13.5px;color:var(--ink-soft)">Quem está votando:</label>
+      <select id="vt-nome"><option value="">Selecione</option><option>Rafael Moraes</option><option>Gabriel Martins</option><option>Fellipe Viana</option></select>
+      <button class="btn ghost" type="button" id="vt-reset">Zerar tudo em 5</button>
+    </div>
+
+    <div class="vt-wrap reveal">
+      <table class="vt" id="vt-table">
+        <thead><tr><th>Nome</th><th>Encaixe</th><th>Memória</th><th>Pronúncia</th><th>Visual</th><th>Risco</th><th>Longevidade</th></tr></thead>
+        <tbody id="vt-body"></tbody>
+      </table>
+    </div>
+
+    <div class="rank" id="vt-rank"></div>
+
+    <div class="vt-actions">
+      <button class="btn" type="button" id="vt-copy">Copiar meu voto</button>
+      <button class="btn ghost" type="button" id="vt-show">Ver o texto</button>
+      <span id="vt-msg" style="font-size:13px;color:var(--accent);font-weight:600"></span>
+    </div>
+    <div class="vt-out" id="vt-out"></div>
+    <p class="vt-note">Esta página é estática: <b>o voto fica só no seu navegador</b> e não é enviado a lugar nenhum. É por isso que existe o botão de copiar — a consolidação dos três votos é manual, no grupo. Se quisermos placar compartilhado ao vivo depois, dá para gravar numa tabela do Supabase que já usamos no projeto.</p>
+  </div>
+</section>
+
+<!-- ============ 7 · O QUE FALTA ============ -->
+<section id="falta" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Seção 7 · O que falta</span>
+      <h2>Escolher o nome é o começo. Estas quatro etapas é que o tornam nosso</h2>
+      <p class="lede">Nenhuma delas foi feita. O material não afirma disponibilidade de marca em lugar algum — só disponibilidade de domínio, conforme a sua consulta.</p>
+    </div>
+    <div class="chk reveal">
+      <div><b>1 · Busca de anterioridade no INPI</b><p>Antes de qualquer registro, um agente de propriedade industrial precisa varrer as classes que nos interessam: 9 (software), 35 (administração de negócios), 36 (gestão e administração de imóveis) e 42 (software como serviço). É essa busca que diz se o nome é registrável — não o Google.</p></div>
+      <div><b>2 · Registro da marca</b><p>Feita a busca, o pedido entra nas classes escolhidas em nome da empresa nova, com o CNPJ que ainda será constituído. Processo longo: conta em meses, não em semanas, e convive com oposição de terceiros.</p></div>
+      <div><b>3 · Domínio e handles no mesmo dia</b><p>Decidido o nome, registrar o .com.br na hora e travar os perfis nas redes. A janela entre decidir e registrar é o momento de maior risco — nome discutido em grupo vaza.</p></div>
+      <div><b>4 · Contas das lojas</b><p>Apple e Google no CNPJ da empresa nova, com o nome já definido: trocar o nome do app depois da publicação custa avaliação, ranking e histórico.</p></div>
+    </div>
+    <div class="rule reveal" style="margin-top:26px">
+      <div><b>O que este material deliberadamente não faz.</b> Não afirma que qualquer um dos cinco nomes está livre para registro, não consulta o INPI e não substitui a opinião de um agente de marcas. A checagem feita aqui é de uso público na internet e de significado — ela elimina nomes ruins, mas não aprova nenhum.</div>
+    </div>
+    <div class="who-bar"><span>Logado como <b id="who-name">—</b></span><button type="button" id="logout" data-home="index.html">Sair</button></div>
+  </div>
+</section>
+
+<!-- ============ FONTES ============ -->
+<section id="fontes">
+  <div class="wrap">
+    <h2>Fontes consultadas</h2>
+    <p style="font-size:13px;color:var(--ink-mute);margin-top:8px">Consultas feitas em 19 de setembro de 2026. Disponibilidade dos domínios .com.br conforme consulta do Rafael ao Registro.br na mesma data.</p>
+    <ol>
+      <li>Bawab — Wikipedia (significado, função e condição do porteiro de prédio no Cairo). <a href="https://en.wikipedia.org/wiki/Bawab">en.wikipedia.org/wiki/Bawab</a></li>
+      <li>بواب — Wiktionary (raiz árabe e tradução). <a href="https://en.wiktionary.org/wiki/%D8%A8%D9%88%D8%A7%D8%A8">en.wiktionary.org</a></li>
+      <li>App "Rafic Bawab" na App Store brasileira. <a href="https://apps.apple.com/br/app/rafic-bawab/id1453693672">apps.apple.com</a></li>
+      <li>Verbete "selar" — Dicionário Priberam da Língua Portuguesa. <a href="https://dicionario.priberam.org/selar">dicionario.priberam.org/selar</a></li>
+      <li>"Inside Selar's rise: The platform fuelling Africa's creator economy" — BusinessDay NG. <a href="https://businessday.ng/features/article/inside-selars-rise-the-platform-fuelling-africas-creator-economy/">businessday.ng</a></li>
+      <li>"Selar paid out ₦9.8 billion in 2024" — Techpoint Africa. <a href="https://techpoint.africa/news/selar-paid-out-9-8-billion-in-2024/">techpoint.africa</a></li>
+      <li>Rinu — Wikipedia (cantor e dublador japonês). <a href="https://en.wikipedia.org/wiki/Rinu">en.wikipedia.org/wiki/Rinu</a></li>
+      <li>RINU Mobiles, Palakkad, Kerala — Dun &amp; Bradstreet. <a href="https://www.dnb.com/business-directory/company-profiles.rinu_mobiles.3f2ce3250c253e7b199d57bda07d0d33.html">dnb.com</a></li>
+      <li>Erazan Asset Management Ltd — Companies House, Reino Unido. <a href="https://find-and-update.company-information.service.gov.uk/company/10520009">find-and-update.company-information.service.gov.uk</a></li>
+      <li>Erazan — sobrenome, Ancestry. <a href="https://www.ancestry.com/last-name-meaning/erazan">ancestry.com</a></li>
+      <li>ERAZAN — perfil de músico no Bandcamp. <a href="https://erazan.bandcamp.com/">erazan.bandcamp.com</a></li>
+      <li>Paddock — etimologia e usos, Etymonline. <a href="https://www.etymonline.com/word/paddock">etymonline.com/word/paddock</a></li>
+      <li>uCondo — site institucional (cor de tema declarada #A696DD). <a href="https://www.ucondo.com.br/">ucondo.com.br</a></li>
+      <li>Cores de TownSq, Winker e Superlógica extraídas dos logos reproduzidos no dossiê Concorrentes v1 e conferidas nos sites: <a href="https://townsq.com.br/">townsq.com.br</a>, <a href="https://www.winker.com.br/">winker.com.br</a>, <a href="https://superlogica.com/">superlogica.com</a></li>
+    </ol>
+  </div>
+</section>
+
+<footer><div class="wrap"><span><b>Central do Morador</b> · Marca · Setembro 2026</span><span>Confidencial — uso restrito aos sócios</span></div></footer>
+</div>
+<script>
+(function(){
+  /* ---------- gate ---------- */
+  var USERS=['Rafael Moraes','Gabriel Martins','Fellipe Viana'];
+  var PASS='App#2026#';
+  var KEY='cbp_auth';
+  var gate=document.getElementById('gate');
+  function unlock(n){ document.body.classList.remove('locked'); if(gate) gate.style.display='none'; var w=document.getElementById('who-name'); if(w) w.textContent=n; var s=document.getElementById('vt-nome'); if(s&&!s.value) s.value=n; }
+  try{ var st=sessionStorage.getItem(KEY); if(st&&USERS.indexOf(st)>=0) unlock(st); }catch(e){}
+  var f=document.getElementById('gate-form');
+  if(f){ f.addEventListener('submit',function(e){ e.preventDefault();
+      var u=document.getElementById('g-user').value,p=document.getElementById('g-pass').value;
+      if(USERS.indexOf(u)>=0&&p===PASS){ try{sessionStorage.setItem(KEY,u);}catch(x){} unlock(u); }
+      else { document.getElementById('g-err').style.display='block'; document.getElementById('g-pass').value=''; document.getElementById('g-pass').focus(); } });
+    var eye=document.getElementById('g-eye');
+    eye.addEventListener('click',function(){ var i=document.getElementById('g-pass'),on=i.type==='password'; i.type=on?'text':'password'; eye.setAttribute('aria-label',on?'Ocultar senha':'Mostrar senha'); i.focus(); });
+  }
+  var lo=document.getElementById('logout');
+  if(lo) lo.addEventListener('click',function(){ try{sessionStorage.removeItem(KEY);}catch(x){} location.href=lo.dataset.home||'index.html'; });
+  var bar=document.getElementById('progress');
+  function prog(){ var h=document.documentElement,max=h.scrollHeight-h.clientHeight; bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%'; }
+  addEventListener('scroll',prog,{passive:true}); prog();
+
+  /* ---------- reveal ---------- */
+  var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('pre');obs.unobserve(e.target);}})},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('pre');obs.observe(el);});
+  /* varredura de segurança: garante que nada fique invisível se o observer perder um elemento
+     (rolagem muito rápida, salto por âncora, aba em segundo plano) */
+  function sweep(){
+    var vh=innerHeight||document.documentElement.clientHeight;
+    document.querySelectorAll('.reveal.pre').forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.top<vh*.96&&r.bottom>0){ el.classList.remove('pre'); obs.unobserve(el); }
+    });
+  }
+  var swt;
+  addEventListener('scroll',function(){ clearTimeout(swt); swt=setTimeout(sweep,90); },{passive:true});
+  addEventListener('resize',sweep); addEventListener('load',sweep);
+  setTimeout(sweep,400);
+
+  /* ---------- dados ---------- */
+  var NAMES=['Bawab','Selar','Rinu','Erazan','Vaddock'];
+  var CRITS=['Encaixe com o negócio','Memorabilidade','Pronúncia e escrita','Potencial visual','Risco jurídico','Longevidade'];
+  var FONTS=[
+    {f:"'Archivo'",n:'Archivo',note:'A mesma do Business Plan. Institucional, larga e firme — a marca herda a autoridade dos materiais que os sócios já conhecem.'},
+    {f:"'Space Grotesk'",n:'Space Grotesk',note:'Grotesca com defeitos de propósito. É a que mais entrega personalidade e a que menos parece template de startup.'},
+    {f:"'Outfit'",n:'Outfit',note:'Geométrica, redonda e simpática. Cara de aplicativo do consumidor — favorece os nomes curtos e leves.'},
+    {f:"'Sora'",n:'Sora',note:'Sóbria e contemporânea, com desenho técnico. Bom meio-termo entre software sério e marca jovem.'},
+    {f:"'Plus Jakarta Sans'",n:'Plus Jakarta Sans',note:'Neutra e de produto. Some por trás do nome, o que é bom quando a palavra já é forte sozinha.'}
+  ];
+
+  /* ---------- tipografia ---------- */
+  var state={cs:'title',canvas:'dark',color:'nt',weight:800,track:-25};
+  var host=document.getElementById('typo-specs');
+  FONTS.forEach(function(ft,i){
+    var sec=document.createElement('div'); sec.className='spec reveal';
+    var rows=NAMES.map(function(n){
+      return '<div class="wm-row"><div class="wm" data-name="'+n+'" style="font-family:'+ft.f+',sans-serif">'+n+'</div>'+
+             '<div class="icon ic-nt" data-icon="'+n+'" style="font-family:'+ft.f+',sans-serif">'+n.charAt(0)+'</div></div>';
+    }).join('');
+    sec.innerHTML='<div class="spec-h"><span class="fname">'+ft.n+'</span><span class="fnote">'+ft.note+'</span></div><div class="wordmarks">'+rows+'</div>';
+    sec.classList.add('pre'); host.appendChild(sec); obs.observe(sec);
+  });
+  function applyTypo(){
+    var size='clamp(30px,5vw,54px)';
+    document.querySelectorAll('.wm').forEach(function(el){
+      var n=el.dataset.name;
+      el.textContent = state.cs==='upper'?n.toUpperCase():state.cs==='lower'?n.toLowerCase():n;
+      el.style.fontSize=size; el.style.fontWeight=state.weight; el.style.letterSpacing=(state.track/1000)+'em';
+      el.className='wm'+(state.color==='az'?' c-az':state.color==='rx'?' c-rx':'');
+    });
+    document.querySelectorAll('.icon').forEach(function(el){
+      el.className='icon '+(state.color==='az'?'ic-az':state.color==='rx'?'ic-rx':'ic-nt');
+      el.style.fontWeight=state.weight;
+      var n=el.dataset.icon;
+      el.textContent = state.cs==='lower'?n.charAt(0).toLowerCase():n.charAt(0).toUpperCase();
+    });
+    document.querySelectorAll('.spec').forEach(function(s){ s.classList.toggle('light',state.canvas==='light'); });
+    document.getElementById('c-weight-v').textContent=state.weight;
+    document.getElementById('c-track-v').textContent=(state.track/1000).toFixed(3)+'em';
+  }
+  function seg(id,key){
+    var g=document.getElementById(id); if(!g) return;
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      g.querySelectorAll('button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+      state[key]=b.dataset.v;
+      if(id==='seg-color'){ g.className='seg'+(b.dataset.v==='az'?' az':b.dataset.v==='rx'?' rx':''); }
+      applyTypo();
+    });
+  }
+  seg('seg-case','cs'); seg('seg-canvas','canvas'); seg('seg-color','color');
+  document.getElementById('c-weight').addEventListener('input',function(){state.weight=+this.value;applyTypo();});
+  document.getElementById('c-track').addEventListener('input',function(){state.track=+this.value;applyTypo();});
+  applyTypo();
+
+  /* ---------- votação ---------- */
+  var VKEY='cbp_voto_marca';
+  var scores={}; NAMES.forEach(function(n){scores[n]=CRITS.map(function(){return 5;})});
+  try{ var saved=JSON.parse(localStorage.getItem(VKEY)||'null'); if(saved&&saved.scores) NAMES.forEach(function(n){ if(saved.scores[n]) scores[n]=saved.scores[n]; }); }catch(e){}
+  var tb=document.getElementById('vt-body');
+  NAMES.forEach(function(n){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+n+'</td>'+CRITS.map(function(c,i){
+      return '<td><input type="number" min="0" max="10" step="1" value="'+scores[n][i]+'" data-n="'+n+'" data-i="'+i+'" aria-label="'+n+' — '+c+'"></td>';
+    }).join('');
+    tb.appendChild(tr);
+  });
+  var rk=document.getElementById('vt-rank');
+  NAMES.forEach(function(n){
+    var d=document.createElement('div'); d.className='rk'; d.dataset.n=n;
+    d.innerHTML='<span class="nmz">'+n+'</span><div class="track"><div class="fill"></div></div><span class="val">—</span>';
+    rk.appendChild(d);
+  });
+  function weights(){
+    var w=[]; for(var i=0;i<6;i++){ var el=document.getElementById('w'+i); w.push(el?(+el.value||0):0); }
+    return w;
+  }
+  function compute(){
+    var w=weights(), sum=w.reduce(function(a,b){return a+b},0);
+    var ws=document.getElementById('wsum');
+    ws.innerHTML='Soma dos pesos: <b>'+sum+'%</b>'+(sum!==100?' — ajuste para fechar em 100%.':'');
+    ws.classList.toggle('bad',sum!==100);
+    var res=NAMES.map(function(n){
+      var t=0; for(var i=0;i<6;i++){ t+=scores[n][i]*w[i]; }
+      return {n:n,v:sum>0?t/sum:0};
+    }).sort(function(a,b){return b.v-a.v});
+    var max=res[0]?res[0].v:0;
+    res.forEach(function(r,idx){
+      var el=rk.querySelector('[data-n="'+r.n+'"]');
+      rk.appendChild(el);
+      el.classList.toggle('p1',idx===0);
+      el.querySelector('.fill').style.width=(max>0?(r.v/10)*100:0)+'%';
+      el.querySelector('.val').textContent=r.v.toFixed(1);
+    });
+    return res;
+  }
+  function save(){ try{ localStorage.setItem(VKEY,JSON.stringify({scores:scores})); }catch(e){} }
+  tb.addEventListener('input',function(e){
+    var el=e.target; if(el.tagName!=='INPUT') return;
+    var v=Math.max(0,Math.min(10,+el.value||0));
+    scores[el.dataset.n][+el.dataset.i]=v; save(); compute();
+  });
+  for(var i=0;i<6;i++){ (function(el){ if(el) el.addEventListener('input',compute); })(document.getElementById('w'+i)); }
+  document.getElementById('vt-reset').addEventListener('click',function(){
+    NAMES.forEach(function(n){ scores[n]=CRITS.map(function(){return 5;}); });
+    tb.querySelectorAll('input').forEach(function(el){ el.value=5; });
+    save(); compute();
+  });
+  function voteText(){
+    var who=document.getElementById('vt-nome').value||'(sem nome)';
+    var res=compute(), w=weights();
+    var L=['Voto de marca — '+who+' — 19/09/2026','','Ranking:'];
+    res.forEach(function(r,i){ L.push((i+1)+'. '+r.n+' — '+r.v.toFixed(1)+'/10'); });
+    L.push('','Notas por critério (0 a 10):');
+    NAMES.forEach(function(n){ L.push(n+': '+CRITS.map(function(c,i){return c+' '+scores[n][i]}).join(' · ')); });
+    L.push('','Pesos usados: '+CRITS.map(function(c,i){return c+' '+w[i]+'%'}).join(' · '));
+    return L.join('\n');
+  }
+  function flash(m){ var el=document.getElementById('vt-msg'); el.textContent=m; setTimeout(function(){el.textContent='';},2600); }
+  document.getElementById('vt-copy').addEventListener('click',function(){
+    var t=voteText();
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(function(){flash('Voto copiado.');},function(){showOut(t);}); }
+    else showOut(t);
+  });
+  function showOut(t){ var o=document.getElementById('vt-out'); o.textContent=t; o.classList.add('on'); flash('Selecione e copie o texto abaixo.'); }
+  document.getElementById('vt-show').addEventListener('click',function(){ showOut(voteText()); });
+  compute();
+
+  /* ---------- nome nas simulações de cor ---------- */
+  function setMk(n){ document.querySelectorAll('[data-mk]').forEach(function(el){ el.textContent=n; }); }
+  var gmk=document.getElementById('seg-mk');
+  if(gmk){
+    gmk.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      gmk.querySelectorAll('button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+      setMk(b.dataset.v);
+    });
+  }
+  setMk('Bawab');
+})();
+</script>
+</body>
+</html>

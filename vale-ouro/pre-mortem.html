@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pré-Mortem · Central do Morador · v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+:root{
+  --brand-dark:#5C0A13; --brand-deep:#9C0F1F; --brand:#DC1E2D; --brand-mid:#EF4655;
+  --brand-light:#F6AAB1; --brand-pale:#FDECEE;
+  --accent:#16A34A; --accent-pale:#E7F6EC; --accent-deep:#0F7537;
+  --amber:#B45309; --amber-pale:#FDF3E3;
+  --ink:#1F2430; --ink-soft:#3A4152; --ink-mute:#6B7280;
+  --bg:#FAF8F4; --card:#FFFFFF; --line:#EDE7E4;
+  --navy:#1F2430; --navy-deep:#171B26; --navy-line:#333A4C; --navy-text:#C9CEDC; --navy-mute:#8B93A7;
+  --display:'Archivo',Arial,sans-serif; --body:'DM Sans','Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--body);color:var(--ink);background:var(--navy-deep);line-height:1.55;-webkit-font-smoothing:antialiased;overflow:hidden}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- deck ---------- */
+.deck{position:fixed;inset:0;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateX(56px);transition:opacity .45s ease,transform .45s ease,visibility .45s;overflow-y:auto;overflow-x:hidden}
+.slide.active{opacity:1;visibility:visible;transform:translateX(0)}
+.slide.prev{transform:translateX(-56px)}
+.slide-inner{width:100%;max-width:1520px;margin:0 auto;padding:clamp(54px,7vh,82px) clamp(28px,4.4vw,84px) clamp(86px,9vh,112px);flex:1;display:flex;flex-direction:column;justify-content:center}
+.light{background:var(--card)}.tint{background:var(--bg)}.dark{background:var(--navy);color:#fff}
+
+/* ---------- typography ---------- */
+.disp{font-family:var(--display);font-weight:900;letter-spacing:-.02em}
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:clamp(10.5px,.78vw,13px);letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800;margin-bottom:clamp(10px,1.5vh,16px)}
+.eyebrow::before{content:"";width:38px;height:3px;background:var(--brand);border-radius:2px}
+.dark .eyebrow{color:var(--brand-mid)}.dark .eyebrow::before{background:var(--brand-mid)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(36px,5.4vw,78px);line-height:1.02;letter-spacing:-.025em}
+h1 em{font-style:normal;color:var(--brand-mid)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(25px,2.7vw,44px);line-height:1.06;letter-spacing:-.018em;margin-bottom:clamp(8px,1.1vh,14px);text-wrap:balance}
+.lede{font-size:clamp(13.5px,1.08vw,19px);color:var(--ink-soft);max-width:1020px;line-height:1.55}
+.dark .lede{color:rgba(255,255,255,.72)}
+.lede b{color:var(--ink)}.dark .lede b{color:#fff}
+.read{margin-top:clamp(14px,2vh,24px);font-size:clamp(13px,1.02vw,17px);font-weight:600;padding:clamp(13px,1.7vh,19px) clamp(18px,1.7vw,26px);background:var(--brand-pale);border-left:5px solid var(--brand);line-height:1.5;max-width:1260px;border-radius:0 10px 10px 0}
+.read span{display:block;font-family:var(--display);font-size:clamp(9.5px,.68vw,11.5px);letter-spacing:.2em;text-transform:uppercase;color:var(--brand-deep);font-weight:800;margin-bottom:5px}
+.dark .read{background:rgba(255,255,255,.07);color:#fff;border-color:var(--brand-mid)}
+.dark .read span{color:var(--brand-light)}
+
+/* ---------- grids / cards ---------- */
+.grid{display:grid;gap:clamp(11px,1.15vw,18px);margin-top:clamp(13px,1.9vh,22px)}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:clamp(15px,1.9vh,22px) clamp(15px,1.4vw,22px);position:relative}
+.dark .card{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+.card .tag{font-family:var(--display);font-size:clamp(9.5px,.68vw,11.5px);letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:800;margin-bottom:6px}
+.card h3{font-family:var(--display);font-size:clamp(14px,1.08vw,19px);font-weight:800;line-height:1.22;margin-bottom:7px;letter-spacing:-.01em}
+.card p{font-size:clamp(12.2px,.9vw,15.5px);color:var(--ink-soft);line-height:1.5}
+.dark .card p{color:rgba(255,255,255,.72)}
+.card.accent{border-left:5px solid var(--brand)}
+.num{font-family:var(--display);font-weight:900;font-size:clamp(26px,2.6vw,42px);color:var(--brand-light);line-height:1;margin-bottom:6px}
+
+/* ---------- cover ---------- */
+.cover-kicker{font-family:var(--display);font-size:clamp(11px,.86vw,15px);letter-spacing:.3em;text-transform:uppercase;color:var(--brand-mid);font-weight:800;margin-bottom:clamp(14px,2.2vh,22px)}
+.cover-sub{margin-top:clamp(14px,2.2vh,26px);font-size:clamp(14px,1.16vw,21px);color:rgba(255,255,255,.7);max-width:840px;line-height:1.6}
+.cover-meta{margin-top:clamp(22px,3.6vh,46px);display:flex;flex-wrap:wrap}
+.cover-meta .cell{padding-right:32px;margin-right:32px;border-right:1px solid rgba(255,255,255,.15);margin-bottom:10px}
+.cover-meta .cell:last-child{border:none}
+.cover-meta .k{font-family:var(--display);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.42);font-weight:800}
+.cover-meta .v{font-size:clamp(13px,.98vw,17px);margin-top:7px;font-weight:700}
+.start-hint{margin-top:clamp(20px,3.4vh,40px);display:inline-flex;align-items:center;gap:12px;color:rgba(255,255,255,.48);font-size:13px;font-weight:600}
+.start-hint .key{border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:3px 11px;font-size:12px}
+
+/* ---------- divider ---------- */
+.divider .slide-inner{justify-content:center}
+.div-num{font-family:var(--display);font-weight:900;font-size:clamp(58px,10vh,116px);line-height:1;color:var(--brand-mid);opacity:.32;margin-bottom:4px}
+.div-items{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(18px,3.2vh,36px)}
+.div-items span{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:9px 17px;font-weight:700;font-size:clamp(12px,.92vw,15.5px);color:rgba(255,255,255,.85)}
+.div-items b{color:var(--brand-mid);font-family:var(--display)}
+
+/* ---------- question slide ---------- */
+.quote{background:var(--navy);color:#fff;border-radius:18px;padding:clamp(24px,3.4vh,46px) clamp(24px,3vw,52px);position:relative;overflow:hidden}
+.quote::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--brand)}
+.quote .q{font-family:var(--display);font-weight:800;font-size:clamp(19px,2.15vw,38px);line-height:1.2;letter-spacing:-.015em;text-wrap:balance}
+.quote .who{margin-top:clamp(12px,1.8vh,20px);font-size:clamp(12px,.88vw,15px);color:var(--navy-mute);font-weight:600}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1vw,16px);margin-top:clamp(14px,2vh,24px);counter-reset:st}
+.step{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:clamp(14px,1.8vh,20px) clamp(13px,1.2vw,18px);position:relative}
+.step .sn{font-family:var(--display);font-weight:900;font-size:13px;color:#fff;background:var(--brand);width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:9px}
+.step h4{font-family:var(--display);font-size:clamp(13px,.98vw,16.5px);font-weight:800;margin-bottom:5px;line-height:1.2}
+.step p{font-size:clamp(11.5px,.84vw,14px);color:var(--ink-soft);line-height:1.45}
+.step .mm{display:inline-block;margin-top:8px;font-family:var(--display);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--brand-deep);background:var(--brand-pale);border-radius:6px;padding:2px 8px}
+.rules{display:flex;flex-wrap:wrap;gap:9px;margin-top:clamp(14px,2vh,22px)}
+.rules span{background:var(--bg);border:1.5px solid var(--line);border-radius:999px;padding:8px 15px;font-weight:700;font-size:clamp(11.5px,.86vw,14.5px);color:var(--ink-soft)}
+.rules b{color:var(--brand-deep)}
+
+/* ---------- notes ---------- */
+.notes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(11px,1.1vw,16px);margin-top:clamp(12px,1.8vh,20px)}
+.nbox{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:clamp(12px,1.5vh,17px) clamp(13px,1.2vw,18px);display:flex;flex-direction:column}
+.nbox.wide{grid-column:1/-1}
+.nbox .nh{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.nbox .av{width:26px;height:26px;border-radius:8px;background:var(--brand-pale);color:var(--brand-deep);font-family:var(--display);font-weight:900;font-size:11.5px;display:flex;align-items:center;justify-content:center}
+.nbox .nn{font-family:var(--display);font-weight:800;font-size:clamp(12.5px,.92vw,15.5px)}
+.nbox .nr{margin-left:auto;font-size:11px;color:var(--ink-mute);font-weight:600}
+.note{min-height:clamp(74px,12vh,132px);border:1.5px dashed var(--line);border-radius:10px;padding:10px 12px;font-family:var(--body);font-size:clamp(12.5px,.92vw,15px);line-height:1.55;color:var(--ink);outline:none;background:#FCFBF9;overflow-y:auto;white-space:pre-wrap}
+.note:focus{border-color:var(--brand-light);border-style:solid;background:#fff;box-shadow:0 0 0 3px var(--brand-pale)}
+.note:empty::before{content:attr(data-ph);color:#B9BDC6}
+.notes-bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:clamp(12px,1.7vh,18px)}
+.timer{display:flex;align-items:center;gap:10px;background:var(--navy);color:#fff;border-radius:12px;padding:9px 14px}
+.timer .tv{font-family:var(--display);font-weight:900;font-size:clamp(17px,1.5vw,24px);font-variant-numeric:tabular-nums;letter-spacing:.01em;min-width:64px}
+.timer.run .tv{color:var(--brand-mid)}
+.tbtn{background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-family:var(--display);font-weight:800;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.tbtn:hover{background:var(--brand)}
+.saved{font-size:12px;color:var(--ink-mute);font-weight:600;display:flex;align-items:center;gap:7px}
+.saved i{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink-mute);border-radius:8px;padding:7px 13px;font-family:var(--display);font-weight:800;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.ghost:hover{border-color:var(--brand);color:var(--brand)}
+
+/* ---------- risks ---------- */
+.risk{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:14px;overflow:hidden;min-height:clamp(136px,18vh,208px)}
+.risk-in{padding:clamp(14px,1.8vh,21px) clamp(14px,1.3vw,21px);transition:filter .45s ease,opacity .45s ease}
+.risk:not(.open) .risk-in{filter:blur(7px);opacity:.3;user-select:none}
+.risk .rtag{font-family:var(--display);font-size:clamp(9.5px,.66vw,11px);letter-spacing:.18em;text-transform:uppercase;color:var(--brand);font-weight:800;margin-bottom:6px}
+.risk h3{font-family:var(--display);font-size:clamp(13.5px,1.04vw,18px);font-weight:800;line-height:1.22;margin-bottom:8px;letter-spacing:-.01em}
+.risk .fail{font-size:clamp(12px,.88vw,15px);color:var(--ink-soft);line-height:1.48;margin-bottom:10px}
+.rline{display:flex;gap:9px;align-items:flex-start;margin-top:7px}
+.rk{font-family:var(--display);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:1px}
+.rk.alert{background:var(--amber-pale);color:var(--amber)}
+.rk.prot{background:var(--accent-pale);color:var(--accent-deep)}
+.rline p{font-size:clamp(11.5px,.85vw,14.5px);color:var(--ink-soft);line-height:1.45}
+.veil{position:absolute;inset:0;border:none;background:linear-gradient(150deg,#fff 0%,var(--bg) 60%,var(--brand-pale) 150%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;cursor:pointer;transition:opacity .35s ease;font-family:var(--display)}
+.veil:hover{background:linear-gradient(150deg,#fff 0%,var(--brand-pale) 100%)}
+.veil .vn{font-weight:900;font-size:clamp(28px,2.8vw,44px);color:var(--brand-light);line-height:1}
+.veil .vt{font-weight:800;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand-deep);background:#fff;border:1.5px solid var(--brand-light);border-radius:999px;padding:6px 15px}
+.veil:hover .vt{background:var(--brand);color:#fff;border-color:var(--brand)}
+.risk.open .veil{display:none}
+.revealall{display:inline-flex;align-items:center;gap:8px;margin-top:clamp(12px,1.8vh,20px);margin-bottom:-4px;background:transparent;border:1.5px solid var(--line);color:var(--ink-mute);border-radius:999px;padding:7px 16px;font-family:var(--display);font-weight:800;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;align-self:flex-start}
+.revealall:hover{border-color:var(--brand);color:var(--brand)}
+
+/* ---------- matrix ---------- */
+.two{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(18px,2.2vw,40px);align-items:start;margin-top:clamp(12px,1.8vh,20px)}
+.chart svg{width:100%;height:auto;display:block;max-height:58vh}
+.mlist{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:clamp(10.5px,.78vw,13px);color:var(--ink-soft)}
+.mlist div{display:flex;gap:7px;line-height:1.35}
+.mlist b{font-family:var(--display);color:var(--brand);font-weight:800;min-width:17px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:clamp(11px,.82vw,13.5px);color:var(--ink-mute);font-weight:600}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+
+/* ---------- plan table ---------- */
+.plan{width:100%;border-collapse:collapse;margin-top:clamp(12px,1.7vh,19px);background:var(--card);border:1.5px solid var(--line);border-radius:12px;overflow:hidden;font-size:clamp(11.5px,.86vw,14.5px);table-layout:fixed}
+.plan th{background:var(--navy);color:#fff;font-family:var(--display);font-size:clamp(9.5px,.68vw,11.5px);letter-spacing:.15em;text-transform:uppercase;font-weight:800;padding:10px 12px;text-align:left}
+.plan td{border-bottom:1px solid var(--line);padding:0;vertical-align:top}
+.plan tr:last-child td{border-bottom:none}
+.pcell{min-height:44px;padding:10px 12px;outline:none;line-height:1.45;color:var(--ink)}
+.pcell:focus{background:#FCFBF9;box-shadow:inset 0 0 0 2px var(--brand-light)}
+.pcell:empty::before{content:attr(data-ph);color:#C3C7CE}
+.plan .rm{width:34px;text-align:center}
+.rmb{background:none;border:none;color:#C3C7CE;cursor:pointer;font-size:16px;line-height:1;padding:10px 4px;transition:color .2s}
+.rmb:hover{color:var(--brand)}
+
+/* ---------- closing ---------- */
+.final{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(11px,1.15vw,18px);margin-top:clamp(14px,2vh,24px)}
+.fcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:clamp(15px,1.9vh,22px) clamp(15px,1.4vw,22px)}
+.fcard .fn{font-family:var(--display);font-weight:900;font-size:clamp(22px,2.2vw,34px);color:var(--brand-mid);line-height:1;margin-bottom:8px}
+.fcard h3{font-family:var(--display);font-size:clamp(13.5px,1.02vw,17.5px);font-weight:800;margin-bottom:6px}
+.fcard p{font-size:clamp(12px,.88vw,15px);color:rgba(255,255,255,.7);line-height:1.5}
+
+/* ---------- chrome ---------- */
+.progress{position:fixed;top:0;left:0;height:4px;background:var(--brand);z-index:70;transition:width .45s ease;width:0}
+.sec-label{position:fixed;top:18px;left:clamp(20px,2.4vw,40px);z-index:60;font-family:var(--display);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:800;color:var(--ink-mute);display:flex;align-items:center;gap:11px}
+.sec-label.on-dark{color:rgba(255,255,255,.45)}
+.sec-label .n{color:var(--brand)}
+.sec-label.on-dark .n{color:var(--brand-mid)}
+.backbtn{position:fixed;left:clamp(20px,2.4vw,40px);top:14px;z-index:65;text-decoration:none;background:transparent;color:var(--ink-mute);border:1.5px solid var(--line);font-family:var(--display);font-weight:800;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;padding:8px 15px;border-radius:8px;display:flex;align-items:center;gap:7px;transition:all .22s}
+.backbtn:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.backbtn.on-dark{border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.62)}
+.backbtn.on-dark:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.topbtns{position:fixed;right:clamp(20px,2.4vw,40px);top:14px;z-index:65;display:flex;gap:9px}
+.tb{background:transparent;color:var(--ink-mute);border:1.5px solid var(--line);cursor:pointer;font-family:var(--display);font-weight:800;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;padding:8px 15px;border-radius:8px;display:flex;align-items:center;gap:7px;transition:all .22s}
+.tb:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tb.on-dark{border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.62)}
+.tb.on-dark:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tb svg{width:13px;height:13px}
+.chrome{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(20px,2.4vw,40px);pointer-events:none}
+.chrome>*{pointer-events:auto}
+.brandmark{font-family:var(--display);font-weight:900;font-size:12px;letter-spacing:.02em;color:var(--ink-mute)}
+.brandmark b{color:var(--brand)}
+.brandmark.on-dark{color:rgba(255,255,255,.5)}
+.dots{display:flex;gap:5px;align-items:center;background:rgba(31,36,48,.55);backdrop-filter:blur(10px);padding:9px 14px;border-radius:999px;flex-wrap:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .2s;position:relative}
+.dot:hover{background:rgba(255,255,255,.7)}
+.dot.on{background:var(--brand);width:20px;border-radius:999px}
+.dot .tip{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy-deep);color:#fff;font-size:11px;font-weight:600;padding:5px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .18s}
+.dot:hover .tip{opacity:1}
+.nav-btns{display:flex;gap:9px}
+.nbtn{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.nbtn:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+.nbtn svg{width:17px;height:17px}
+.nbtn.on-dark{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#fff}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){.steps{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.mlist{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){.g2,.g3,.g4,.steps,.notes-grid,.final{grid-template-columns:1fr}.dots{display:none}.mlist{grid-template-columns:1fr}.cover-meta .cell{border:none;padding-right:0;margin-right:24px}}
+/* ---------- print ---------- */
+.print-only{display:none}
+@media print{
+  @page{size:A4 landscape;margin:11mm}
+  html,body{height:auto;overflow:visible;background:#fff}
+  body{font-size:10.5pt}
+  .progress,.topbtns,.backbtn,.sec-label,.chrome,.start-hint,.veil,.revealall,.timer,.ghost,.saved,.rmb,.notes-bar{display:none!important}
+  .deck{position:static;overflow:visible}
+  .slide{position:static;opacity:1!important;visibility:visible!important;transform:none!important;display:block;overflow:visible;break-after:page;page-break-after:always;background:#fff!important;color:var(--ink)!important}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .slide.dark{background:#fff!important}
+  .slide.dark *{color:var(--ink)!important}
+  .slide.dark .cover-kicker,.slide.dark .eyebrow,.slide.dark .div-num,.slide.dark .fcard .fn{color:var(--brand)!important}
+  .slide-inner{max-width:none;padding:0;display:block}
+  .quote{background:#fff!important;border:2px solid var(--navy);color:var(--ink)!important}
+  .quote .q,.quote .who{color:var(--ink)!important}
+  .fcard,.card,.risk,.nbox,.step{background:#fff!important;border:1px solid #D9D5D0!important;break-inside:avoid;page-break-inside:avoid}
+  .risk:not(.open) .risk-in{filter:none!important;opacity:1!important}
+  .risk{min-height:0}
+  h1{font-size:30pt}h2{font-size:18pt}
+  .lede,.cover-sub{font-size:10.5pt;max-width:none}
+  .card p,.risk .fail,.rline p,.step p{font-size:9pt}
+  .card h3,.risk h3{font-size:11pt}
+  .note{min-height:0;border:1px solid #D9D5D0;background:#fff;font-size:9.5pt;overflow:visible}
+  .note:empty::before{content:"— sem anotações —";color:#B9BDC6}
+  .pcell{min-height:0}
+  .pcell:empty::before{content:""}
+  .plan .rm{display:none}
+  .chart svg{max-height:104mm}
+  .two{break-inside:avoid;page-break-inside:avoid;display:grid;grid-template-columns:1.2fr 1fr;gap:10mm;align-items:start}
+  .mlist{grid-template-columns:1fr 1fr}
+  .legend{font-size:8pt}
+  .eyebrow{break-after:avoid;page-break-after:avoid}
+  h2{break-after:avoid;page-break-after:avoid}
+  .lede{break-after:avoid;page-break-after:avoid}
+  .read{break-inside:avoid;page-break-inside:avoid}
+  .plan{break-inside:avoid;page-break-inside:avoid}
+  .print-only{display:block}
+  .pfoot{margin-top:14px;padding-top:8px;border-top:1px solid #E3DFDA;font-size:8pt;color:#8A8F99;font-family:var(--display);letter-spacing:.1em;text-transform:uppercase}
+}
+
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="sec-label" id="secLabel"></div>
+<a class="backbtn" href="../index.html" title="Voltar para a Central do Business Plan">← Central do BP</a>
+<div class="topbtns">
+  <button class="tb" id="clearBtn" title="Limpar todas as anotações"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg>Limpar</button>
+  <button class="tb" id="pdfBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>Salvar em PDF</button>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- 00 · CAPA -->
+<section class="slide dark" id="s0"><div class="slide-inner">
+  <div class="cover-kicker">Business Plan · Material apartado · v2</div>
+  <h1 class="disp">Pré-<em>Mortem</em></h1>
+  <p class="cover-sub">Antes de lançar, imaginamos que o projeto já fracassou — e listamos por quê. O objetivo não é pessimismo: é transformar cada motivo de falha em uma proteção incorporada ao plano, enquanto ainda dá tempo de mudar.</p>
+  <div class="cover-meta">
+    <div class="cell"><div class="k">Projeto</div><div class="v">Central do Morador</div></div>
+    <div class="cell"><div class="k">Referências</div><div class="v">Business Plan v3 · Concorrentes v1</div></div>
+    <div class="cell"><div class="k">Participantes</div><div class="v">Rafael · Gabriel · Fellipe · Vanessa</div></div>
+    <div class="cell"><div class="k">Data</div><div class="v" contenteditable="true" data-k="meta-data">Setembro de 2026</div></div>
+  </div>
+  <div class="start-hint"><span class="key">→</span> Use as setas para navegar · <span class="key">F</span> tela cheia</div>
+</div></section>
+
+<!-- 01 · A PERGUNTA -->
+<section class="slide light" id="s1"><div class="slide-inner">
+  <div class="eyebrow">A pergunta</div>
+  <h2 class="disp">Uma única pergunta abre esta reunião</h2>
+  <div class="quote">
+    <p class="q">"Imaginem que já se passaram seis meses desde o lançamento<br>e isso falhou completamente. Por quê?"</p>
+    <p class="who">A resposta não é uma previsão. É uma lista de tudo o que ainda podemos evitar.</p>
+  </div>
+  <div class="grid g3">
+    <div class="card accent"><div class="num">01</div><h3>Por que perguntar assim</h3><p>Perguntar "o que pode dar errado?" gera respostas educadas. Partir do fracasso como fato consumado libera o time para dizer o que realmente pensa — a crítica deixa de ser deslealdade e vira contribuição.</p></div>
+    <div class="card accent"><div class="num">02</div><h3>O que estamos comprando</h3><p>Tempo. Todo risco listado aqui custa uma conversa de uma hora; o mesmo risco descoberto em campo custa meses de desenvolvimento, dinheiro dos sócios e a confiança dos primeiros síndicos.</p></div>
+    <div class="card accent"><div class="num">03</div><h3>O que sai daqui</h3><p>Uma lista de motivos de falha, um plano de proteções com responsável e prazo, e as mudanças que entram na próxima versão do business plan antes do primeiro piloto pago.</p></div>
+  </div>
+  <div class="read"><span>Como conduzir</span>Nesta reunião eu faço a pergunta e escuto. Não defendo o projeto, não explico por que o risco não vai acontecer e não corrijo ninguém — cada motivo levantado entra na lista exatamente como foi dito. A discussão sobre o que é verdade fica para depois da rodada.</div>
+</div></section>
+
+<!-- 02 · MÉTODO -->
+<section class="slide tint" id="s2"><div class="slide-inner">
+  <div class="eyebrow">Como vamos conduzir</div>
+  <h2 class="disp">Cinco passos, cerca de 60 minutos</h2>
+  <p class="lede">O roteiro segue o método de pré-mortem de Gary Klein. A rodada silenciosa no início é o que garante que a opinião do primeiro a falar não contamine a dos outros.</p>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><h4>Rodada silenciosa</h4><p>Cada um escreve sozinho, sem falar, todos os motivos que imaginar para o fracasso. Nada é descartado nesta etapa.</p><span class="mm">5 min</span></div>
+    <div class="step"><div class="sn">2</div><h4>Rodízio</h4><p>Cada um lê <b>um</b> motivo por vez, em círculo, até a lista se esgotar. Quem repete, complementa.</p><span class="mm">15 min</span></div>
+    <div class="step"><div class="sn">3</div><h4>Agrupar</h4><p>Juntamos motivos parecidos em temas: quem paga, canal, concorrência, produto, operação, sociedade, dinheiro.</p><span class="mm">10 min</span></div>
+    <div class="step"><div class="sn">4</div><h4>Priorizar</h4><p>Cada pessoa escolhe os três que mais matam o projeto. Os mais votados viram prioridade.</p><span class="mm">10 min</span></div>
+    <div class="step"><div class="sn">5</div><h4>Proteger</h4><p>Para cada risco priorizado: qual é o sinal de alerta precoce, qual é a proteção, quem faz e até quando.</p><span class="mm">20 min</span></div>
+  </div>
+  <div class="rules">
+    <span><b>Regra 1 ·</b> ninguém defende o projeto durante a rodada</span>
+    <span><b>Regra 2 ·</b> motivo vago vira pergunta, não vira descarte</span>
+    <span><b>Regra 3 ·</b> risco sobre pessoa se descreve por comportamento, não por caráter</span>
+    <span><b>Regra 4 ·</b> só entra no plano o que tem dono e data</span>
+  </div>
+  <div class="read"><span>Um aviso importante</span>Os slides seguintes ao bloco de anotações trazem motivos de falha que já conseguimos antecipar a partir da v3 do business plan e do dossiê de concorrentes. Eles ficam cobertos de propósito: só devem ser revelados <b>depois</b> que todos falarem, para não ancorar a rodada.</div>
+</div></section>
+
+<!-- 03 · ANOTAÇÕES -->
+<section class="slide light" id="s3"><div class="slide-inner">
+  <div class="eyebrow">Ao vivo</div>
+  <h2 class="disp">Anotações da rodada</h2>
+  <p class="lede">O que cada um levantou, na palavra de quem falou. As anotações ficam salvas neste navegador e entram no PDF junto com os slides.</p>
+  <div class="notes-grid">
+    <div class="nbox"><div class="nh"><div class="av">RM</div><div class="nn">Rafael Moraes</div><div class="nr">founder</div></div><div class="note" contenteditable="true" data-k="n-rafael" data-ph="Motivos de fracasso que o Rafael levantou…"></div></div>
+    <div class="nbox"><div class="nh"><div class="av">GM</div><div class="nn">Gabriel Martins</div><div class="nr">sócio</div></div><div class="note" contenteditable="true" data-k="n-gabriel" data-ph="Motivos de fracasso que o Gabriel levantou…"></div></div>
+    <div class="nbox"><div class="nh"><div class="av">FV</div><div class="nn">Fellipe Viana</div><div class="nr">sócio</div></div><div class="note" contenteditable="true" data-k="n-fellipe" data-ph="Motivos de fracasso que o Fellipe levantou…"></div></div>
+    <div class="nbox"><div class="nh"><div class="av">VA</div><div class="nn">Vanessa</div><div class="nr">convidada</div></div><div class="note" contenteditable="true" data-k="n-vanessa" data-ph="Motivos de fracasso que a Vanessa levantou…"></div></div>
+    <div class="nbox wide"><div class="nh"><div class="av">+</div><div class="nn">Temas, discordâncias e os três mais votados</div></div><div class="note" contenteditable="true" data-k="n-geral" data-ph="Agrupamentos, pontos em que o time discordou, o que foi mais votado e decisões tomadas na hora…"></div></div>
+  </div>
+  <div class="notes-bar">
+    <div class="timer" id="timer"><span class="tv" id="tv">05:00</span><button class="tbtn" id="tStart">Iniciar</button><button class="tbtn" id="tReset">Zerar</button></div>
+    <div class="saved"><i></i><span id="savedTxt">Anotações salvas automaticamente neste navegador</span></div>
+  </div>
+</div></section>
+
+<!-- 04 · DIVISOR -->
+<section class="slide dark divider"><div class="slide-inner">
+  <div class="div-num">25</div>
+  <div class="eyebrow">Só depois da rodada</div>
+  <h1 class="disp" style="font-size:clamp(32px,5.6vh,66px)">O que já conseguimos<br>prever hoje</h1>
+  <p class="cover-sub">Vinte e cinco motivos de fracasso que a v3 do business plan e o dossiê de concorrentes expõem, em sete blocos. Cada um vem com o sinal de alerta que apareceria antes do estrago e a proteção que podemos incorporar agora. Estão cobertos: revele um por um, conforme a conversa pedir.</p>
+  <div class="div-items">
+    <span><b>A</b> Quem paga</span><span><b>B</b> Canal e permanência</span><span><b>C</b> Concorrência</span><span><b>D</b> Produto e diferencial</span><span><b>E</b> Operação e entrega</span><span><b>F</b> Sociedade e pessoas</span><span><b>G</b> Dinheiro, dados e marca</span>
+  </div>
+</div></section>
+
+<!-- BLOCO A -->
+<section class="slide light"><div class="slide-inner">
+  <div class="eyebrow">Bloco A · motivos de fracasso</div>
+  <h2 class="disp">Quem paga — e se de fato paga</h2>
+  <p class="lede">A v3 definiu dois modelos de venda e dois pisos: R$ 149 no CNPJ do síndico, R$ 390 no condomínio. Estes são os motivos pelos quais esse bolso pode simplesmente não abrir.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g3">
+<article class="risk" data-n="01">
+  <div class="risk-in">
+    <div class="rtag">Quem paga · 01</div>
+    <h3>O síndico não tira do próprio bolso</h3>
+    <p class="fail">Seis meses depois, quase toda conversa terminou em “vou levar isso para o condomínio”. O ciclo de dias que justificava a licença no CNPJ do síndico virou um ciclo de meses, e o modelo Síndico nunca foi testado de verdade.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Entre os cinco primeiros pilotos, menos de dois assinam no CNPJ próprio; a objeção “isso é despesa do condomínio” aparece em mais da metade das reuniões.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Levar os dois modelos prontos desde a primeira proposta e a terceira via escrita como oferta, não improvisada. Medir conversão por bolso — quantos assinaram no CNPJ do síndico, não quantos gostaram. E comparar o piso de R$ 149 ao honorário do porte (R$ 900 a R$ 8.000), nunca a uma média.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">01</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="02">
+  <div class="risk-in">
+    <div class="rtag">Quem paga · 02</div>
+    <h3>A alçada do síndico não é a que o plano supõe</h3>
+    <p class="fail">A v3 assume que, abaixo de 3% da arrecadação, a contratação entra como despesa operacional sem passar por assembleia. Na prática, convenções exigiram aprovação, o conselho fiscal questionou na prestação de contas e o contrato de 24 meses — que vincula o condomínio além do mandato de quem assinou — virou o argumento de quem era contra.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>O primeiro síndico pede a minuta “para mostrar ao conselho”; alguma convenção limita contratação plurianual sem assembleia.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Validar a tese dos 3% com um advogado e com cinco convenções reais antes da primeira proposta. Oferecer 12 meses como padrão a quem está no fim do mandato e reservar os 24 para quem acabou de ser eleito. Escrever uma página que o síndico leve ao conselho — se ele precisar defender sozinho, ele não vende.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">02</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="03">
+  <div class="risk-in">
+    <div class="rtag">Quem paga · 03</div>
+    <h3>O volume não chega — e o ticket não perdoa</h3>
+    <p class="fail">Com piso de R$ 149 no síndico e R$ 390 no condomínio sobre uma base de 80 unidades, o modelo exigia muitos contratos. No mês seis existiam doze condomínios e uma receita que não cobria nem a ferramenta de desenvolvimento. Volume era a parte que ninguém tinha testado.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Menos de três novos condomínios por mês a partir do terceiro mês; nenhum síndico com três ou mais condomínios entre os primeiros clientes.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Definir agora o piso de sobrevivência — quantos condomínios ativos no mês seis — e tratá-lo como critério de decisão, não como meta otimista. Qualificar preferindo síndico com carteira: uma venda tem de abrir várias portas.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">03</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- BLOCO B -->
+<section class="slide tint"><div class="slide-inner">
+  <div class="eyebrow">Bloco B · motivos de fracasso</div>
+  <h2 class="disp">Canal e permanência</h2>
+  <p class="lede">Chegar até o síndico e continuar com ele depois que o mandato vira. Quatro riscos em coisas que o plano trata como resolvidas.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g2">
+<article class="risk" data-n="04">
+  <div class="risk-in">
+    <div class="rtag">Canal · 04</div>
+    <h3>O canal que sustenta o modelo está em “Por último”</h3>
+    <p class="fail">O modelo Síndico pressupõe carteira, e a carteira viria do Síndico do Futuro. Mas o selo, a rede e a formação foram para a última prioridade do roadmap, e o programa ainda não tem turma, aluno nem data. Seis meses depois, a venda era indicação pessoal, uma a uma.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Sessenta dias sem turma marcada e sem lista de espera com nome e telefone; nenhum condomínio da rede do Fellipe implantado.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Separar o que é relacionamento atual (poucos, hoje) do que é programa a construir (muitos, depois), com número e data. Se o canal é condição do modelo, ele não pode dividir prioridade com o marketplace.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">04</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="05">
+  <div class="risk-in">
+    <div class="rtag">Permanência · 05</div>
+    <h3>O síndico perde o mandato e leva a carteira inteira</h3>
+    <p class="fail">No modelo Condomínio a licença fica, como a v3 previu. No modelo Síndico, não: a cada dois anos a carteira inteira entrou em renovação ao mesmo tempo. Bastou uma safra de não reeleitos para a base encolher de uma vez.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>O primeiro síndico não reeleito cancela; mais da metade da base concentrada em mandatos que vencem no mesmo semestre.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Registrar a data de fim de mandato de cada cliente já na implantação e distribuir a carteira entre safras. Portabilidade explícita: se o síndico sai, leva a licença para outro condomínio dele. E usar o relatório de transparência como argumento de reeleição, que já está no roadmap.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">05</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="06">
+  <div class="risk-in">
+    <div class="rtag">Permanência · 06</div>
+    <h3>A administradora reage ao ver território invadido</h3>
+    <p class="fail">As administradoras saíram do modelo, mas continuaram dentro dos condomínios. Bastou uma delas orientar o síndico a não usar “um segundo sistema” para o piloto travar — e o e-mail de multa que enviávamos passou a ser ignorado.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Uma ADM pede para não receber nossos relatórios; um síndico relata pressão para usar apenas o app da administradora.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Repetir o limite em todo material: sem boleto, sem balancete, sem disputar a receita dela. O relatório mensal é redução de trabalho da ADM — quem ela deve cobrar, já organizado. É a única linha que nenhum concorrente publica: usar como argumento central, não como detalhe.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">06</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="07">
+  <div class="risk-in">
+    <div class="rtag">Canal · 07</div>
+    <h3>O canal das construtoras fecha antes de chegarmos</h3>
+    <p class="fail">Construtoras estavam no roadmap em “Depois”. Quando fomos bater na porta, o Gruvi — sociedade de Superlógica, Cyrela e Intelbras — já entregava o app junto com as chaves, e a Winker já vendia app com a marca da construtora. O canal que dispensa votação não estava mais disponível.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Uma construtora da região responde que “já tem app do empreendimento”; nenhum contato com construtora feito até o mês quatro.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Testar o canal cedo e barato: uma construtora, um empreendimento, uma proposta. Se funcionar, antecipar a prioridade; se não, tirar do plano em vez de mantê-lo como promessa. E posicionar contra o app da construtora pelo que ele não faz: gestão do síndico.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">07</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- BLOCO C -->
+<section class="slide light"><div class="slide-inner">
+  <div class="eyebrow">Bloco C · motivos de fracasso</div>
+  <h2 class="disp">Concorrência</h2>
+  <p class="lede">Quatro riscos que só ficaram visíveis depois do dossiê de concorrentes. Nenhum deles é sobre o nosso produto ser pior — são sobre chegarmos tarde.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g2">
+<article class="risk" data-n="08">
+  <div class="risk-in">
+    <div class="rtag">Concorrência · 08</div>
+    <h3>A certificação que vamos criar já existe e tem escala</h3>
+    <p class="fail">O Síndico do Futuro era o nosso funil. A TownSq já operava a Certificação Premium na Hotmart, com seis meses de app grátis e promessa comercial de quatro condomínios em três meses, apoiada em 30 mil condomínios e marca conhecida. Quando lançamos a primeira turma, o síndico já tinha um selo no currículo.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Um síndico da lista de espera menciona já ter certificação de outra plataforma; a inscrição da primeira turma fica abaixo da meta.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Não competir em curso — competir em rede. Selo, fila de espera e acesso a condomínios são o que a Hotmart não vende. Copiar o que funciona: software grátis por tempo limitado a quem se certifica, e uma promessa numérica que a gente consiga cumprir.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">08</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="09">
+  <div class="risk-in">
+    <div class="rtag">Concorrência · 09</div>
+    <h3>O preço de entrada do mercado está abaixo do nosso piso</h3>
+    <p class="fail">Nos condomínios pequenos, a conversa terminava no preço. A uCondo entrava a partir de R$ 139 e sem fidelidade; o nosso piso no condomínio era R$ 390. O escopo maior não cabia numa comparação de tabela.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Dois de cada cinco síndicos citam um concorrente mais barato na primeira reunião; desconto concedido fora da régua para fechar.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Nos pequenos, responder com o modelo Síndico (piso R$ 149), não com desconto. Levar uma folha que compare escopo, não preço — o dossiê de concorrentes já tem a tabela pronta. E fixar a regra: quem quebra a régua uma vez, quebra sempre.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">09</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="10">
+  <div class="risk-in">
+    <div class="rtag">Concorrência · 10</div>
+    <h3>A IA deixa de ser diferencial antes de estrear</h3>
+    <p class="fail">A IA que redige a multa pela convenção era a nossa resposta para “por que não a Winker”. Enquanto ela estava em desenvolvimento, a uCondo tirou o Copiloto do beta, a PredIA já respondia pelo regimento no WhatsApp e a Winker declarava cinco camadas de IA. Chegamos com o diferencial de todo mundo.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Um concorrente anuncia redação de multa ou de documento por IA; o síndico responde “o meu sistema já faz isso” numa demonstração.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Tratar prazo como parte do diferencial: IA redatora dentro do escopo dos pilotos, não depois deles. Defender o terreno que eles não ocupam — não é consultar a convenção, é executar o fluxo inteiro, com SLA, e-mail à ADM e arquivo. E revisar o dossiê a cada trimestre, como o próprio material prevê.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">10</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="11">
+  <div class="risk-in">
+    <div class="rtag">Concorrência · 11</div>
+    <h3>A fidelidade trava a venda que deveria ser rápida</h3>
+    <p class="fail">Vendíamos ciclo de dias e pedíamos doze meses de compromisso. A uCondo não pedia nenhum. A mesma crítica que fazemos à CondoPlan360 — dezoito meses de fidelidade para um produto novo — passou a ser feita a nós, por um produto ainda mais novo.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>A objeção “e se eu não gostar?” aparece em mais da metade das reuniões; propostas paradas na etapa de contrato.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Desenhar uma saída que não custe a receita: período de avaliação curto, cláusula de saída nos primeiros 60 dias ou primeiro mês sem cobrança. A fidelidade protege a nossa previsão — mas só depois que o produto provar que segura o cliente sozinho.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">11</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- BLOCO D -->
+<section class="slide tint"><div class="slide-inner">
+  <div class="eyebrow">Bloco D · motivos de fracasso</div>
+  <h2 class="disp">Produto e diferencial</h2>
+  <p class="lede">O que o síndico compra é diferença visível. Aqui estão as formas de essa diferença não aparecer — ou aparecer pelo motivo errado.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g2">
+<article class="risk" data-n="12">
+  <div class="risk-in">
+    <div class="rtag">Produto · 12</div>
+    <h3>A IA erra a multa e o diferencial vira passivo</h3>
+    <p class="fail">A IA redigiu uma notificação citando o artigo errado da convenção. O síndico enviou sem conferir, o morador contestou e o que era nosso maior diferencial virou o motivo pelo qual ele desinstalou — e comentou com outros síndicos.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>No piloto, mais de um em cada cinco documentos precisa de reescrita manual; algum síndico envia sem ler.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>No escopo dos pilotos a IA é redatora, nunca remetente: revisão e envio sempre pelo síndico. Modelo validado por advogado, convenção e regimento citados como fonte dentro do próprio texto, e registro de quem aprovou cada documento.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">12</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="13">
+  <div class="risk-in">
+    <div class="rtag">Produto · 13</div>
+    <h3>Seis de trinta e quatro — o diferencial ainda é promessa</h3>
+    <p class="fail">O nosso próprio comparativo admitiu: seis das trinta e quatro funcionalidades rodavam no Bello 1009, e o que nos diferenciava era o posicionamento, não o produto. Vendemos o que ia existir, e o síndico comprou esperando o que viu na demonstração.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Uma proposta descreve no presente uma funcionalidade ainda não entregue; o primeiro cliente pergunta por um módulo que achava que já existia.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Separar em toda proposta o que já roda do que está no roadmap, com data. Escolher uma dor mensurável — tempo para aplicar uma multa, percentual que lê o comunicado — medir antes e depois no piloto e levar o número à primeira reunião mensal. Prometer menos do que o roadmap e entregar o que foi prometido.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">13</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="14">
+  <div class="risk-in">
+    <div class="rtag">Produto · 14</div>
+    <h3>Roadmap sem datas é roadmap sem corte</h3>
+    <p class="fail">A v3 trocou fases por prioridade e assumiu “entregar tudo no menor tempo possível”. Sem data, nada atrasou formalmente — e nada ficou pronto. Seis meses depois havia coisa começada em Primeiro, Depois e Por último ao mesmo tempo, e nenhum módulo maduro para vender.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Mais de duas frentes abertas simultaneamente; qualquer item de “Depois” começando antes de “Primeiro” estar em produção.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Colocar data no bloco “Primeiro” e congelar o escopo por escrito: comunicação, multas com SLA, IA redatora, e-mail e relatório à ADM. Item novo só entra se outro sair. Manter visível para os sócios a lista do que não vamos fazer agora.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">14</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="15">
+  <div class="risk-in">
+    <div class="rtag">Produto · 15</div>
+    <h3>O morador não adere e o síndico não vê valor</h3>
+    <p class="fail">O app entrou no condomínio, mas trinta por cento das unidades nunca ativaram. Sem moradores dentro, o comunicado não tinha alcance, a multa não tinha contexto e o síndico não teve nada para mostrar na renovação.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Menos de um terço das unidades ativas trinta dias depois da implantação; nenhum comunicado com confirmação de leitura acima de 50%.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Tratar ativação como entrega, não como consequência: meta por condomínio, QR e material de acesso já prontos, presença na assembleia de apresentação e relatório de ativação na primeira reunião com o síndico.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">15</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- BLOCO E -->
+<section class="slide light"><div class="slide-inner">
+  <div class="eyebrow">Bloco E · motivos de fracasso</div>
+  <h2 class="disp">Operação e entrega</h2>
+  <p class="lede">A v3 resolveu o custo por percentual: 20% de impostos, 35% de operação, 10% de reserva, 35% de lucro. Percentual é meta; estes são os três jeitos de a realidade ficar por cima dela.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g3">
+<article class="risk" data-n="16">
+  <div class="risk-in">
+    <div class="rtag">Operação · 16</div>
+    <h3>O custo operacional real passa dos 35%</h3>
+    <p class="fail">A estrutura de resultado reservava 35% do faturamento para desenvolvimento, hospedagem, IA, suporte e implantação. Com poucos clientes, só a ferramenta de R$ 1.000 por mês já consumia mais que isso — e o atendimento, que ninguém cronometrou, veio por cima. O lucro de 35% existia na planilha e não na conta bancária.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Três meses seguidos com custo operacional acima de 35% do faturamento; a mesma dúvida chegando de três síndicos diferentes.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Medir horas e custo por cliente desde o primeiro piloto e comparar com os 35% todo mês. Criar cedo o autoatendimento — central de ajuda, vídeos de onboarding, FAQ do síndico — e definir a partir de quantos clientes ele passa a ser obrigatório.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">16</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="17">
+  <div class="risk-in">
+    <div class="rtag">Operação · 17</div>
+    <h3>O desenvolvimento depende de uma pessoa só</h3>
+    <p class="fail">Todo o produto estava na cabeça e nas mãos do founder. Bastou um período fora de circulação — um imprevisto pessoal, uma demanda urgente da Braper — para o roadmap parar por completo, porque ninguém mais conseguia subir sequer uma correção.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Nenhuma linha de documentação técnica escrita; credenciais e ambiente de deploy conhecidos por uma pessoa apenas.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Documentar ambiente, deploy e acessos em local que os sócios alcancem. Ter um desenvolvedor de retaguarda já mapeado e contratável. Combinar por escrito o que acontece com o produto se o founder ficar indisponível por semanas.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">17</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="18">
+  <div class="risk-in">
+    <div class="rtag">Operação · 18</div>
+    <h3>A Braper e a Central competem pelo mesmo tempo</h3>
+    <p class="fail">Os dois negócios dividiram as mesmas semanas e as mesmas pessoas. Nenhum dos dois parou, mas ambos andaram devagar — e o projeto que precisava de velocidade foi justamente o que perdeu a disputa por agenda.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Duas semanas seguidas sem nenhuma entrega do bloco “Primeiro”; reunião do projeto desmarcada por demanda de cliente da agência.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Bloco fixo de agenda semanal com dia e hora, tratado como compromisso com cliente. Meta mensal do projeto revisada em reunião curta e registrada. Deixar explícito entre os sócios o que a Central pode e o que não pode tomar da Braper.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">18</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- BLOCO F -->
+<section class="slide tint"><div class="slide-inner">
+  <div class="eyebrow">Bloco F · motivos de fracasso</div>
+  <h2 class="disp">Sociedade e pessoas</h2>
+  <p class="lede">Os riscos mais caros raramente são técnicos. Estes são conversas que é melhor ter agora, com o projeto ainda de pé.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g3">
+<article class="risk" data-n="19">
+  <div class="risk-in">
+    <div class="rtag">Sociedade · 19</div>
+    <h3>Os gatilhos do cliff não acontecem — e não estão escritos</h3>
+    <p class="fail">Contrato com a Síndico do Futuro, carteira implantada e primeira turma eram as condições combinadas. Elas não entraram na v3 e nenhuma aconteceu. Doze meses depois, a conversa sobre participação chegou tarde, quando já havia mágoa dos dois lados.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Noventa dias sem reunião comercial marcada pelo sócio responsável; nenhum gatilho com data no calendário nem no acordo.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Escrever os gatilhos com número e data no acordo — não no business plan — e revisá-los trimestralmente, não anualmente. Combinar agora, enquanto ninguém está na defensiva, como essa conversa acontece se a meta não vier.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">19</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="20">
+  <div class="risk-in">
+    <div class="rtag">Sociedade · 20</div>
+    <h3>A dedicação real fica abaixo do combinado</h3>
+    <p class="fail">Todos tinham outra fonte de renda e o projeto virou o terceiro item da lista de cada um. Ninguém abandonou — mas ninguém puxou. Seis meses depois, o business plan estava mais avançado que o negócio.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Reunião mensal desmarcada duas vezes seguidas; itens de ata sem dono voltando na reunião seguinte.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Definir no acordo horas por semana esperadas de cada sócio e o que acontece quando não são cumpridas. Ritual fixo, sempre no mesmo horário, com ata curta em que todo item tem dono e data.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">20</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="21">
+  <div class="risk-in">
+    <div class="rtag">Sociedade · 21</div>
+    <h3>Uma contribuição importante fica sem forma definida</h3>
+    <p class="fail">A ideia original veio de fora do quadro societário e o trabalho continuou vindo, mas o formato dessa participação nunca foi fechado. O que era gesto de reconhecimento virou assunto desconfortável — entre os sócios e dentro de casa.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Trabalho contínuo sendo entregue sem que exista uma definição escrita de como ele é reconhecido.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Decidir o formato antes do lançamento — cota, holding, prestação de serviço ou apoio informal declarado — e comunicar aos sócios de uma vez, com racional. Enquanto não houver definição, manter o combinado: responsáveis do roadmap apenas entre os sócios.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">21</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- BLOCO G -->
+<section class="slide light"><div class="slide-inner">
+  <div class="eyebrow">Bloco G · motivos de fracasso</div>
+  <h2 class="disp">Dinheiro, dados e marca</h2>
+  <p class="lede">Quatro riscos que não aparecem no dia a dia do produto e conseguem encerrar o projeto sozinhos.</p>
+  <button class="revealall" type="button">Revelar todos deste bloco</button>
+  <div class="grid g2">
+<article class="risk" data-n="22">
+  <div class="risk-in">
+    <div class="rtag">Dados · 22</div>
+    <h3>Um incidente de dados destrói a confiança de uma vez</h3>
+    <p class="fail">A base tinha nome, unidade, telefone, placas e lista de convidados de milhares de moradores. Um acesso indevido em um único condomínio bastou: nenhum síndico assinou depois, e a conversa deixou de ser sobre produto para ser sobre responsabilidade.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Piloto rodando sem política de privacidade publicada, sem base legal declarada e sem um backup que alguém já tenha restaurado em teste.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Tratar LGPD como pré-requisito do primeiro piloto pago: política, termo de uso, contrato de tratamento com o condomínio e responsável nomeado. Backup restaurado em teste, não apenas configurado. Reconhecimento facial e leitura de placas só depois de base legal e fornecedor definidos.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">22</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="23">
+  <div class="risk-in">
+    <div class="rtag">Estrutura · 23</div>
+    <h3>A publicação nas lojas atrasa o que foi prometido</h3>
+    <p class="fail">A venda prometia “app na loja”. Mas o CNPJ ainda não existia, nenhuma conta de desenvolvedor tinha titular e a decisão técnica seguia em aberto. No mês seis, o produto funcionava — e ainda assim parecia atrasado.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>CNPJ não constituído até a data combinada; conta Apple ou Google sem titular definido; caminho técnico indeciso na véspera do piloto.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Decidir o caminho técnico antes de prometer loja. Vender o que já existe hoje, com instalação pela web, e tratar a publicação como marco de comunicação — não como pré-requisito do produto. Abrir as contas assim que houver CNPJ.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">23</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="24">
+  <div class="risk-in">
+    <div class="rtag">Dinheiro · 24</div>
+    <h3>O caixa acaba antes da tração — e o percentual esconde isso</h3>
+    <p class="fail">Sem investidor e sem empréstimo, o custo fixo correu por meses contra uma receita que engatinhava. A estrutura de 20 / 35 / 10 / 35 dava conforto no papel, mas percentual sobre faturamento pequeno é dinheiro pequeno: 35% de quase nada não paga a ferramenta nem a hospedagem. Ninguém decidiu encerrar; o projeto foi ficando sem combustível.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Quatro meses consecutivos sem receita recorrente cobrindo o custo fixo; aporte dos sócios acontecendo sem valor e prazo combinados.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Publicar no BP o custo fixo em reais — não em percentual — e quantos condomínios o cobrem em cada modelo. Definir quanto cada sócio coloca e até quando. Marcar um ponto de checagem no mês seis com três saídas escritas: continuar, cortar escopo ou pausar.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">24</span><span class="vt">Revelar</span></button>
+</article>
+<article class="risk" data-n="25">
+  <div class="risk-in">
+    <div class="rtag">Marca · 25</div>
+    <h3>A marca nasce sem nome e o rebrand chega no pior momento</h3>
+    <p class="fail">As primeiras propostas, o material de venda e a conta da loja saíram com um nome provisório, enquanto Winker, uCondo e TownSq operavam como marcas consolidadas. Quando o nome definitivo chegou, já havia clientes, links e documentos com a marca antiga — e a troca no meio dos pilotos custou retrabalho e confundiu quem já tinha comprado.</p>
+    <div class="rline"><span class="rk alert">Sinal de alerta</span><p>Primeira proposta comercial paga emitida sem nome definido; conta de loja criada com nome provisório.</p></div>
+    <div class="rline"><span class="rk prot">Proteção</span><p>Prazo-limite para fechar o nome e iniciar o registro antes da primeira proposta paga — o dossiê de concorrentes já lista isso entre os próximos passos. Se o prazo passar, assumir formalmente o nome atual como marca e registrá-lo: decidir é melhor que adiar.</p></div>
+  </div>
+  <button class="veil" type="button"><span class="vn">25</span><span class="vt">Revelar</span></button>
+</article>
+  </div>
+</div></section>
+
+<!-- MATRIZ -->
+<section class="slide tint"><div class="slide-inner">
+  <div class="eyebrow">Priorização</div>
+  <h2 class="disp">Onde colocar a energia primeiro</h2>
+  <p class="lede">Os vinte e cinco motivos posicionados por probabilidade e impacto. A posição é hipótese do founder e serve de ponto de partida — na reunião, cada um move o que discordar.</p>
+  <div class="two">
+    <div class="chart"><svg viewBox="0 0 780 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Matriz de risco: probabilidade por impacto"><rect x="470" y="34" width="278" height="180" fill="#DC1E2D" opacity=".055" rx="10"/><text x="740" y="24" text-anchor="end" font-family="Archivo,sans-serif" font-size="13" font-weight="800" letter-spacing="2" fill="#9C0F1F" opacity=".75">ZONA CRÍTICA</text><line x1="96" y1="34" x2="96" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="34" x2="748" y2="34" stroke="#EDE7E4" stroke-width="1"/><line x1="226" y1="34" x2="226" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="124" x2="748" y2="124" stroke="#EDE7E4" stroke-width="1"/><line x1="357" y1="34" x2="357" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="215" x2="748" y2="215" stroke="#EDE7E4" stroke-width="1"/><line x1="487" y1="34" x2="487" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="305" x2="748" y2="305" stroke="#EDE7E4" stroke-width="1"/><line x1="618" y1="34" x2="618" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="396" x2="748" y2="396" stroke="#EDE7E4" stroke-width="1"/><line x1="748" y1="34" x2="748" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="486" x2="748" y2="486" stroke="#EDE7E4" stroke-width="1"/><line x1="96" y1="486" x2="748" y2="486" stroke="#1F2430" stroke-width="2"/><line x1="96" y1="34" x2="96" y2="486" stroke="#1F2430" stroke-width="2"/><text x="422" y="528" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" font-weight="700" fill="#3A4152">Probabilidade de acontecer  →</text><text transform="translate(50,260) rotate(-90)" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" font-weight="700" fill="#3A4152">Impacto no projeto</text><text x="173" y="508" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#6B7280">baixa</text><text x="422" y="508" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#6B7280">média</text><text x="652" y="508" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#6B7280">alta</text><text x="84" y="444" text-anchor="end" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#6B7280">contorna</text><text x="84" y="305" text-anchor="end" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#6B7280">dói</text><text x="84" y="119" text-anchor="end" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#6B7280">encerra</text><circle cx="594.6" cy="80.4" r="17" fill="#DC1E2D"/><text x="594.6" y="85.4" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">01</text><circle cx="498.7" cy="138.3" r="17" fill="#DC1E2D"/><text x="498.7" y="143.3" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">02</text><circle cx="671.3" cy="68.8" r="17" fill="#DC1E2D"/><text x="671.3" y="73.8" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">03</text><circle cx="652.1" cy="149.9" r="17" fill="#DC1E2D"/><text x="652.1" y="154.9" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">04</text><circle cx="517.9" cy="254.2" r="17" fill="#B45309"/><text x="517.9" y="259.2" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">05</text><circle cx="345.3" cy="335.3" r="17" fill="#1F2430"/><text x="345.3" y="340.3" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">06</text><circle cx="479.5" cy="346.9" r="17" fill="#1F2430"/><text x="479.5" y="351.9" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">07</text><circle cx="556.2" cy="219.4" r="17" fill="#B45309"/><text x="556.2" y="224.4" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">08</text><circle cx="613.8" cy="231.0" r="17" fill="#B45309"/><text x="613.8" y="236.0" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">09</text><circle cx="575.4" cy="115.1" r="17" fill="#DC1E2D"/><text x="575.4" y="120.1" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">10</text><circle cx="460.4" cy="300.6" r="17" fill="#1F2430"/><text x="460.4" y="305.6" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">11</text><circle cx="422.0" cy="173.1" r="17" fill="#B45309"/><text x="422.0" y="178.1" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">12</text><circle cx="498.7" cy="68.8" r="17" fill="#DC1E2D"/><text x="498.7" y="73.8" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">13</text><circle cx="632.9" cy="196.3" r="17" fill="#DC1E2D"/><text x="632.9" y="201.3" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">14</text><circle cx="402.8" cy="289.0" r="17" fill="#1F2430"/><text x="402.8" y="294.0" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">15</text><circle cx="594.6" cy="277.4" r="17" fill="#B45309"/><text x="594.6" y="282.4" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">16</text><circle cx="326.1" cy="91.9" r="17" fill="#B45309"/><text x="326.1" y="96.9" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">17</text><circle cx="537.1" cy="184.7" r="17" fill="#DC1E2D"/><text x="537.1" y="189.7" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">18</text><circle cx="383.6" cy="138.3" r="17" fill="#B45309"/><text x="383.6" y="143.3" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">19</text><circle cx="441.2" cy="219.4" r="17" fill="#B45309"/><text x="441.2" y="224.4" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">20</text><circle cx="249.4" cy="312.2" r="17" fill="#1F2430"/><text x="249.4" y="317.2" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">21</text><circle cx="172.7" cy="68.8" r="17" fill="#B45309"/><text x="172.7" y="73.8" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">22</text><circle cx="402.8" cy="393.3" r="17" fill="#1F2430"/><text x="402.8" y="398.3" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">23</text><circle cx="287.8" cy="138.3" r="17" fill="#B45309"/><text x="287.8" y="143.3" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">24</text><circle cx="345.3" cy="428.1" r="17" fill="#1F2430"/><text x="345.3" y="433.1" text-anchor="middle" font-family="Archivo,sans-serif" font-size="14" font-weight="900" fill="#fff">25</text></svg>
+      <div class="legend"><span><i style="background:#DC1E2D"></i>Proteger antes do primeiro piloto pago</span><span><i style="background:#B45309"></i>Proteger durante os pilotos</span><span><i style="background:#1F2430"></i>Monitorar com indicador</span></div>
+    </div>
+    <div>
+      <div class="mlist"><div><b>01</b>Síndico não paga do bolso</div><div><b>02</b>Alçada do síndico não é a suposta</div><div><b>03</b>Volume não chega</div><div><b>04</b>Canal está em “Por último”</div><div><b>05</b>Mandato leva a carteira</div><div><b>06</b>Administradora reage</div><div><b>07</b>Canal das construtoras fecha</div><div><b>08</b>Certificação já existe (TownSq)</div><div><b>09</b>Preço de entrada abaixo do piso</div><div><b>10</b>IA deixa de ser diferencial</div><div><b>11</b>Fidelidade trava a venda</div><div><b>12</b>IA erra a multa</div><div><b>13</b>Diferencial ainda é promessa</div><div><b>14</b>Roadmap sem datas</div><div><b>15</b>Morador não adere</div><div><b>16</b>Custo operacional passa de 35%</div><div><b>17</b>Dev depende de uma pessoa só</div><div><b>18</b>Braper compete por tempo</div><div><b>19</b>Gatilhos do cliff não acontecem</div><div><b>20</b>Dedicação abaixo do combinado</div><div><b>21</b>Contribuição sem forma definida</div><div><b>22</b>Incidente de dados</div><div><b>23</b>Lojas e CNPJ atrasam</div><div><b>24</b>Caixa acaba antes da tração</div><div><b>25</b>Marca nasce sem nome</div></div>
+      <div class="read" style="margin-top:16px"><span>Leitura</span>Oito motivos na zona crítica. <b>01, 02, 03 e 04</b> são o pivô da v3 visto de quatro ângulos: se o síndico não paga, se a alçada não existe, se o volume não vem e se o canal está na última prioridade, nada mais importa. <b>10, 13 e 14</b> são novos e vêm do mesmo lugar — o diferencial é uma promessa com prazo indefinido, enquanto os concorrentes já entregam. <b>22</b> está fora da zona por probabilidade, mas é o único que sozinho encerra o projeto.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- PLANO -->
+<section class="slide tint"><div class="slide-inner">
+  <div class="eyebrow">O que sai da reunião</div>
+  <h2 class="disp">Plano de proteções</h2>
+  <p class="lede">Um risco por linha, com a proteção que entra no plano, quem executa e até quando. Sem dono e sem data, não é proteção — é intenção. Responsáveis apenas entre os sócios.</p>
+  <table class="plan">
+    <colgroup><col style="width:24%"><col style="width:40%"><col style="width:16%"><col style="width:16%"><col style="width:34px"></colgroup>
+    <thead><tr><th>Risco</th><th>Proteção que entra no plano</th><th>Responsável</th><th>Até quando</th><th class="rm"></th></tr></thead>
+    <tbody id="planBody"></tbody>
+  </table>
+  <div class="notes-bar">
+    <button class="ghost" id="addRow">+ Adicionar linha</button>
+    <button class="ghost" id="fillTop">Puxar os 5 prioritários</button>
+    <div class="saved"><i></i><span>Preenchimento salvo neste navegador e incluído no PDF</span></div>
+  </div>
+</div></section>
+
+<!-- ENCERRAMENTO -->
+<section class="slide dark"><div class="slide-inner">
+  <div class="eyebrow">Encerramento</div>
+  <h2 class="disp" style="color:#fff">O pré-mortem só vale se virar mudança</h2>
+  <p class="cover-sub">Três destinos para o que foi levantado aqui. Todos com data, nenhum com "depois a gente vê".</p>
+  <div class="final">
+    <div class="fcard"><div class="fn">01</div><h3>Vira item da Fase A</h3><p>Proteções que mudam o produto ou o processo de venda entram no escopo congelado dos próximos 90 dias, com dono e prazo, ou não entram.</p></div>
+    <div class="fcard"><div class="fn">02</div><h3>Vira mudança no business plan</h3><p>Premissas que este exercício derrubou são corrigidas na próxima versão — incluindo números do simulador que dependiam de canal ou volume ainda não provados.</p></div>
+    <div class="fcard"><div class="fn">03</div><h3>Vira indicador de acompanhamento</h3><p>Todo sinal de alerta listado precisa de alguém olhando para ele. O que não é medido só aparece quando já custou caro.</p></div>
+  </div>
+  <div class="read"><span>Próxima checagem</span>Refazer este exercício no mês seis, com os pilotos rodando: <b>o que de fato deu errado estava nesta lista?</b> O que não estava é o que precisamos aprender a enxergar.</div>
+</div></section>
+
+</div>
+
+<div class="chrome">
+  <div class="brandmark" id="brandmark">Central do Morador · <b>Pré-Mortem</b></div>
+  <div class="dots" id="dots"></div>
+  <div class="nav-btns">
+    <button class="nbtn" id="btnPrev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="nbtn" id="btnNext" aria-label="Próximo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+</div>
+
+<script>
+/* ---------- persistência ---------- */
+const KEY='premortem-cdm-v2';
+let DB={fields:{},plan:null};
+try{const raw=localStorage.getItem(KEY);if(raw)DB=Object.assign(DB,JSON.parse(raw));}catch(e){}
+let saveT=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));}catch(e){}}
+function queueSave(){clearTimeout(saveT);saveT=setTimeout(save,350);
+  const t=document.getElementById('savedTxt');if(t){t.textContent='Anotações salvas neste navegador';}}
+
+/* ---------- campos livres ---------- */
+function bindFields(){
+  document.querySelectorAll('[contenteditable][data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    if(DB.fields[k]!==undefined)el.textContent=DB.fields[k];
+    el.addEventListener('input',()=>{DB.fields[k]=el.textContent;queueSave();});
+    el.addEventListener('paste',e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData('text/plain');document.execCommand('insertText',false,t);});
+  });
+}
+
+/* ---------- plano de proteções ---------- */
+const PH=['Qual risco · nº','O que vamos fazer para que isso não aconteça','Rafael / Gabriel / Fellipe','dd/mm'];
+const TOP=['01 · O síndico não paga do próprio bolso','03 · O volume não chega','04 · O canal está em “Por último”','10 · A IA deixa de ser diferencial','13 · O diferencial ainda é promessa'];
+const body=document.getElementById('planBody');
+function planRow(vals){
+  const tr=document.createElement('tr');
+  for(let i=0;i<4;i++){
+    const td=document.createElement('td');
+    const d=document.createElement('div');
+    d.className='pcell';d.contentEditable='true';d.dataset.ph=PH[i];d.textContent=(vals&&vals[i])||'';
+    d.addEventListener('input',savePlan);
+    d.addEventListener('paste',e=>{e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData('text/plain');document.execCommand('insertText',false,t);});
+    td.appendChild(d);tr.appendChild(td);
+  }
+  const td=document.createElement('td');td.className='rm';
+  const b=document.createElement('button');b.className='rmb';b.type='button';b.innerHTML='&times;';b.title='Remover linha';
+  b.addEventListener('click',()=>{tr.remove();if(!body.children.length)body.appendChild(planRow());savePlan();});
+  td.appendChild(b);tr.appendChild(td);
+  return tr;
+}
+function savePlan(){DB.plan=[...body.querySelectorAll('tr')].map(tr=>[...tr.querySelectorAll('.pcell')].map(c=>c.textContent));queueSave();}
+function renderPlan(){
+  body.innerHTML='';
+  const rows=(DB.plan&&DB.plan.length)?DB.plan:[[],[],[],[],[],[]];
+  rows.forEach(r=>body.appendChild(planRow(r)));
+}
+document.getElementById('addRow').addEventListener('click',()=>{body.appendChild(planRow());savePlan();});
+document.getElementById('fillTop').addEventListener('click',()=>{
+  const rows=[...body.querySelectorAll('tr')];
+  TOP.forEach((t,i)=>{
+    let tr=rows[i];
+    if(!tr){tr=planRow();body.appendChild(tr);}
+    const c=tr.querySelector('.pcell');
+    if(!c.textContent.trim())c.textContent=t;
+  });
+  savePlan();
+});
+
+/* ---------- véus ---------- */
+document.querySelectorAll('.risk .veil').forEach(v=>v.addEventListener('click',()=>v.parentElement.classList.add('open')));
+document.querySelectorAll('.revealall').forEach(b=>b.addEventListener('click',()=>{
+  b.closest('.slide').querySelectorAll('.risk').forEach(r=>r.classList.add('open'));
+  b.textContent='Bloco revelado';b.disabled=true;b.style.opacity='.45';
+}));
+
+/* ---------- cronômetro ---------- */
+(function(){
+  const box=document.getElementById('timer'),tv=document.getElementById('tv'),st=document.getElementById('tStart'),rs=document.getElementById('tReset');
+  if(!box)return;const TOTAL=300;let left=TOTAL,h=null;
+  const paint=()=>{tv.textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0');};
+  const stop=()=>{clearInterval(h);h=null;box.classList.remove('run');st.textContent='Iniciar';};
+  st.addEventListener('click',()=>{
+    if(h){stop();return;}
+    box.classList.add('run');st.textContent='Pausar';
+    h=setInterval(()=>{left--;paint();if(left<=0){stop();left=0;paint();}},1000);
+  });
+  rs.addEventListener('click',()=>{stop();left=TOTAL;paint();});
+  paint();
+})();
+
+/* ---------- limpar ---------- */
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  if(!confirm('Apagar todas as anotações e o plano de proteções deste navegador?'))return;
+  DB={fields:{},plan:null};save();
+  document.querySelectorAll('[contenteditable][data-k]').forEach(el=>{if(el.dataset.k!=='meta-data')el.textContent='';});
+  renderPlan();
+});
+
+/* ---------- PDF ---------- */
+document.getElementById('pdfBtn').addEventListener('click',()=>{
+  document.querySelectorAll('.risk').forEach(r=>r.classList.add('open'));
+  window.print();
+});
+
+/* ---------- navegação ---------- */
+const labels=['Capa','A pergunta','Como conduzir','Anotações da rodada','O que já prevemos','Bloco A · Quem paga','Bloco B · Canal e permanência','Bloco C · Concorrência','Bloco D · Produto e diferencial','Bloco E · Operação e entrega','Bloco F · Sociedade e pessoas','Bloco G · Dinheiro, dados e marca','Matriz de risco','Plano de proteções','Encerramento'];
+const slides=[...document.querySelectorAll('.slide')];
+const dots=document.getElementById('dots'),secLabel=document.getElementById('secLabel'),brandmark=document.getElementById('brandmark');
+let cur=0;
+slides.forEach((s,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.innerHTML=`<span class="tip">${labels[i]||''}</span>`;d.addEventListener('click',()=>go(i));dots.appendChild(d);});
+function go(i){
+  if(i<0||i>=slides.length)return;
+  slides.forEach((s,j)=>{s.classList.toggle('active',j===i);s.classList.toggle('prev',j<i);});
+  [...dots.children].forEach((d,j)=>d.classList.toggle('on',j===i));
+  document.getElementById('progress').style.width=(i/(slides.length-1)*100)+'%';
+  cur=i;
+  const dark=slides[i].classList.contains('dark');
+  secLabel.className='sec-label'+(dark?' on-dark':'');
+  secLabel.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}/${slides.length}</span> ${labels[i]||''}`;
+  document.querySelectorAll('.topbtns .tb').forEach(b=>b.classList.toggle('on-dark',dark));
+  document.querySelectorAll('.backbtn').forEach(b=>b.classList.toggle('on-dark',dark));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.toggle('on-dark',dark));
+  brandmark.className='brandmark'+(dark?' on-dark':'');
+  slides[i].scrollTop=0;
+}
+document.getElementById('btnNext').addEventListener('click',()=>go(cur+1));
+document.getElementById('btnPrev').addEventListener('click',()=>go(cur-1));
+document.addEventListener('keydown',e=>{
+  const typing=e.target.isContentEditable;
+  if(typing&&e.key!=='Escape')return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(cur+1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
+  if(e.key==='Home')go(0);
+  if(e.key==='End')go(slides.length-1);
+  if(e.key==='Escape'&&typing)e.target.blur();
+  if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+});
+let tx=null;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(tx===null||e.target.isContentEditable)return;
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>70)go(cur+(dx<0?1:-1));
+  tx=null;
+});
+
+bindFields();renderPlan();go(0);
+
+</script>
+</body>
+</html>

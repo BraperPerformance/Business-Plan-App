@@ -1,0 +1,38 @@
+Central do Business Plan — como publicar na Vercel (pacote de 19/09/2026 · rev. 2)
+
+ESTRUTURA (a raiz do projeto deve ser esta pasta)
+index.html                  home com login e as 4 categorias
+planejamento/index.html     boxes BP v3, BP v2 e BP v4 (em breve)
+planejamento/bp-v3.html     Business Plan v3 (versão de 18/09, revisada em 19/09)
+planejamento/bp-v2.html     Business Plan v2 (intocado)
+concorrentes.html           Concorrentes v1 (arquivo unico, abre direto pelo card da home)
+vale-ouro/index.html        boxes Pre-Mortem e "Novo material" (em breve)
+vale-ouro/pre-mortem.html   Pre-Mortem v2
+marca.html                  Marca: os cinco nomes, tipografia, cor, simbolo e votacao
+
+O QUE MUDOU NESTE PACOTE (rev. 2)
+- marca.html deixou de ser placeholder: agora e o material de decisao do nome.
+- Barra "Central do BP" adicionada ao topo de bp-v3.html, concorrentes.html e
+  vale-ouro/pre-mortem.html. O bp-v2.html continua intocado, como combinado.
+- Card da Marca atualizado no index.html da raiz.
+
+DO PACOTE ANTERIOR (rev. 1), ja incluido aqui
+- planejamento/bp-v3.html substituido pela versao 3.8 (Consideracoes, bandas Secovi, contratos 12/24 meses).
+- concorrentes.html deixou de ser placeholder: agora e o dossie completo.
+- vale-ouro/pre-mortem.html e novo; o card do Pre-Mortem passou a abrir o material.
+- index.html (raiz), planejamento/index.html e vale-ouro/index.html atualizados (cards, badges e contagens).
+
+IMPORTANTE
+- Nao ha vercel.json neste pacote. Sem cleanUrls, todos os links funcionam com .html, que e como as paginas foram escritas.
+- Substitua TODOS os arquivos, inclusive o index.html da raiz.
+- Se ainda existirem no repositorio planejamento/v2.html e planejamento/v3.html (sobra do primeiro pacote), apague.
+
+ACESSO
+Rafael Moraes / Gabriel Martins / Fellipe Viana — senha App#2026#
+Para mudar: bloco USERS/PASS no script de cada pagina de hub (index.html, planejamento/index.html, vale-ouro/index.html, marca.html).
+marca.html tem gate proprio (e aberto direto pela home).
+Os materiais bp-v3, bp-v2, concorrentes e pre-mortem nao tem gate: o login fica nas paginas de hub.
+
+PUBLICAR UM MATERIAL NOVO
+1. Coloque o HTML na pasta (ex.: vale-ouro/novo-material.html).
+2. No card correspondente, troque <div class="cat soon"> por <a class="cat" href="...">.
