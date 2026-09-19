@@ -1,0 +1,23 @@
+Central do Business Plan — como publicar na Vercel
+
+ESTRUTURA (a raiz do projeto deve ser esta pasta)
+index.html                  home com login e as 4 categorias
+planejamento/index.html     boxes BP v3, BP v2 e BP v4 (em breve)
+planejamento/bp-v3.html     Business Plan v3
+planejamento/bp-v2.html     Business Plan v2
+vale-ouro/index.html        boxes Pre-mortem e material em branco
+concorrentes.html           placeholder
+marca.html                  placeholder
+
+IMPORTANTE
+- Nao ha vercel.json neste pacote. Sem cleanUrls, todos os links funcionam com .html, que e como as paginas foram escritas.
+- Apague do repositorio os arquivos antigos planejamento/v2.html e planejamento/v3.html (sobra do primeiro pacote).
+- Substitua TODOS os arquivos, inclusive o index.html da raiz.
+
+ACESSO
+Rafael Moraes / Gabriel Martins / Fellipe Viana — senha App#2026#
+Para mudar: bloco USERS/PASS no script de cada pagina.
+
+PUBLICAR UM MATERIAL NOVO
+1. Coloque o HTML na pasta (ex.: concorrentes.html ou vale-ouro/pre-mortem.html).
+2. No card correspondente, troque <div class="cat soon"> por <a class="cat" href="...">.
