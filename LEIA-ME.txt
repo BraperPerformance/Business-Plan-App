@@ -1,0 +1,17 @@
+Central do Business Plan — estrutura para a Vercel
+
+index.html                    home com login e as 4 categorias
+planejamento/index.html       boxes BP v3 (atual), BP v2 (histórico) e BP v4 (em breve)
+planejamento/bp-v3.html       Business Plan v3
+planejamento/bp-v2.html       Business Plan v2 (conteúdo intacto; só a checagem de login foi somada)
+vale-ouro/index.html          boxes Pré-mortem (em construção) e material em branco (em breve)
+concorrentes.html             placeholder — trocar pelo HTML quando pronto
+marca.html                    placeholder — trocar pelo HTML quando pronto
+vercel.json                   cleanUrls + noindex
+
+Acesso: Rafael Moraes · Gabriel Martins · Fellipe Viana — senha App#2026#
+Para trocar usuários ou senha: bloco USERS/PASS no script de cada página.
+
+Para publicar um material novo:
+1. Coloque o HTML na pasta (ex.: concorrentes.html ou vale-ouro/pre-mortem.html).
+2. No card correspondente, troque a <div class="cat soon"> por <a class="cat" href="...">.
