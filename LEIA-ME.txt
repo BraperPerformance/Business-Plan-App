@@ -1,0 +1,95 @@
+CENTRAL DO BUSINESS PLAN · CENTRALEASY
+Pacote de publicação · rev. 6 · 17/10/2026
+=====================================================
+
+O QUE MUDOU NESTA REVISÃO (rev. 6)
+----------------------------------
+- Business Plan v2 removido da central (card e arquivo).
+- Apresentação Comercial V9: gráfico "Adesão por andar" do painel do síndico corrigido.
+- Rodapés de todos os decks revistos: texto nunca encosta no conteúdo nem nos botões.
+- Investimento e Retorno: botões voltam a ser os mesmos das outras apresentações (sem faixa reservada).
+- Sobre a Marca (agora 33 telas): cores dos dois universos, "Evite" antes de "Faça", ponto médio
+  de 55% marcado no gradiente, cartões de aplicação refeitos, logo vertical com área de proteção
+  do manual, Sora e DM Sans em telas separadas, tela de entrada do app, adesivo e comunicado novos,
+  placa sem sobreposição e kit com 9 itens (moletom em destaque + chaveiro abridor).
+  O chaveiro abridor é sugestão nova, fora do manual v1.0 (foto em marca/img/chaveiro.jpg).
+
+ANTES (rev. 5)
+--------------
+- Nova identidade visual em toda a central (manual de marca v1.0): logo, cobalto/turquesa,
+  gradiente, ícones no estilo do manual, Sora + DM Sans.
+- Tela de entrada nova: capa no gradiente com anéis, cartão com a marca e a saudação
+  "Olá, Rafael. Seja bem-vindo ao Business Plan da Centraleasy." (o nome acompanha o usuário escolhido).
+- Cinco categorias: Planejamento · Apresentação Comercial · Concorrentes · Vale Ouro · Marca.
+- Novos materiais: Apresentação Comercial V9, Investimento e Retorno v1, Marketing e Vendas
+  consolidado v1, Manual de marca (PDF) e o deck "Sobre a Marca".
+- Todos os materiais ganharam identidade Centraleasy e botão "Voltar para o início" na barra superior.
+- Materiais escritos antes da marca (BP v3, Concorrentes v1, Pré-Mortem v2) foram recoloridos
+  e tiveram o nome atualizado para Centraleasy, sem alteração de conteúdo (nota no topo de cada um).
+
+ESTRUTURA DE PASTAS
+-------------------
+index.html                                  Início (tela de entrada + categorias)
+LEIA-ME.txt
+assets/
+  centraleasy-horizontal.svg                Assinatura positiva
+  centraleasy-negativa.svg                  Assinatura negativa (fundos escuros)
+  centraleasy-branca.svg                    Mono branca
+  centraleasy-simbolo.svg                   Símbolo isolado
+  centraleasy-icone.svg                     Ícone do app / favicon
+  centraleasy-manual-de-marca.pdf           Manual de marca v1.0 (58 páginas)
+planejamento/
+  index.html                                Categoria Planejamento
+  bp-v3.html                                Business Plan v3 (versão atual)
+  investimento-retorno.html                 Investimento e Retorno v1 (deck, 16 telas)
+comercial/
+  index.html                                Categoria Apresentação Comercial
+  apresentacao-v9.html                      Apresentação Comercial V9 (31 telas)
+concorrentes/
+  index.html                                Categoria Concorrentes
+  concorrentes-v1.html                      Dossiê de concorrentes v1
+vale-ouro/
+  index.html                                Categoria Vale Ouro
+  pre-mortem.html                           Pré-Mortem v2 (roteiro de reunião, 15 telas)
+  marketing-vendas-consolidado.html         Marketing e Vendas · consolidado v1
+marca/
+  index.html                                Categoria Marca
+  sobre-a-marca.html                        Sobre a Marca (deck, 33 telas)
+  manual.html                               Leitor do manual de marca (PDF) com download
+  naming.html                               Como escolhemos o nome (registro, 19/09/2026)
+  img/                                      Fotos dos mockups usadas no deck Sobre a Marca
+
+COMO PUBLICAR (GitHub + Vercel)
+-------------------------------
+1. Copie TODO o conteúdo desta pasta para a raiz do repositório, substituindo os arquivos existentes.
+2. Apague do repositório os arquivos da revisão anterior que mudaram de lugar:
+     concorrentes.html        (agora em concorrentes/concorrentes-v1.html)
+     marca.html               (agora em marca/index.html)
+     marca-naming.html        (agora em marca/naming.html)
+3. Apague também planejamento/bp-v2.html (o Business Plan v2 saiu da central nesta revisão).
+4. Faça o commit e o push. A Vercel publica sozinha; não há build nem vercel.json.
+5. Depois de publicar, teste na URL da Vercel: entrar com o seu nome, abrir cada categoria,
+   abrir cada material e usar o botão "Voltar para o início" de cada um.
+
+ACESSO
+------
+Usuários: Rafael Moraes · Gabriel Martins · Fellipe Viana
+Senha: App#2026#   (fica no código das páginas; a proteção é de conveniência, não de segurança)
+A sessão vale enquanto a aba do navegador estiver aberta (sessionStorage). "Sair" encerra na hora.
+Páginas com login: início e as cinco categorias (+ marca/naming.html). Os materiais abrem sem login
+para não quebrar links diretos e a apresentação no celular.
+
+NAVEGAÇÃO NOS DECKS
+-------------------
+Setas do teclado, toque/arrasto na tela, botões no rodapé; F = tela cheia.
+O botão "Voltar para o início" fica fixo no canto superior esquerdo.
+
+DEPENDÊNCIAS EXTERNAS
+---------------------
+Fontes Sora e DM Sans via Google Fonts (sem internet, cai em Arial). Nenhuma outra dependência.
+
+PARA GERAR UMA PRÓXIMA REVISÃO
+------------------------------
+Toda a central é HTML estático. Para adicionar um material: salve o arquivo na pasta da categoria,
+adicione um card no index.html da categoria e, se for um deck no motor da V9, inclua o botão
+"Voltar para o início" (bloco .home) no topo do arquivo.
